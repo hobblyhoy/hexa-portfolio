@@ -5,9 +5,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #1b1b3a;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.hexa-left{fill:#aa87de;fill-opacity:1;}
+.hexa-mid{fill:#8d5fd3;fill-opacity:1;}
+.hexa-right{fill:#5a2ca0;fill-opacity:1;}
+.hexa-top-light{fill:#7137c8;fill-opacity:1;stroke:none;stroke-width:16;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.394737;paint-order:normal;}
+
