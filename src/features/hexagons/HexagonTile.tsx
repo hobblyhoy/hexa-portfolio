@@ -15,11 +15,11 @@ const getRandom = (min: number, max: number): number => Math.random() * (max - m
 function HexagonPng({ left, top, isLinkTest = false }: HexagonPngProps) {
    const slideUpDown = keyframes`
       0% { top: ${top}px; }
-      50% { top: ${top + 20}px; }
+      50% { top: ${top + 10}px; }
       100% { top: ${top}px; }
    `;
-   const randomStartDelay = useMemo(() => getRandom(0, 1), []);
-   const randomOscillationPhase = useMemo(() => getRandom(1,10), []);
+   const randomStartDelay = useMemo(() => getRandom(0, 10), []);
+   const randomOscillationPhase = useMemo(() => getRandom(3,4), []);
 
    return (
       <div
@@ -27,11 +27,11 @@ function HexagonPng({ left, top, isLinkTest = false }: HexagonPngProps) {
             position: fixed;
             left: ${left}px;
             top: ${top}px;
-            // animation: ${slideUpDown};
-            // animation-duration: ${randomOscillationPhase}s;
-            // animation-delay: ${randomStartDelay}s;
-            // animation-timing-function: ease-in-out;
-            // animation-iteration-count: infinite;
+            animation: ${slideUpDown};
+            animation-duration: ${randomOscillationPhase}s;
+            animation-delay: ${randomStartDelay}s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
             cursor: ${isLinkTest ? 'pointer' : 'unset'};
          `}
       >
@@ -40,7 +40,7 @@ function HexagonPng({ left, top, isLinkTest = false }: HexagonPngProps) {
             css={css`
                height: auto;
                width: 100px;
-               opacity: 0.75;
+               opacity: 1;
                transition: opacity 0.66s ease-in-out;
                &:hover {
                   opacity: 1;
