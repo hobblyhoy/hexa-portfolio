@@ -2,7 +2,9 @@
 import { useMemo } from 'react';
 import { css, keyframes } from '@emotion/react';
 import hexagonImage from '../../assets_test/sketchup_hexa.png';
-import hexagonProjects from '../../assets_test/sketchup_hexa_projects2.png'
+import hexagonProjects from '../../assets_test/sketchup_hexa_projects2.png';
+import { TILE_WIDTH } from '../../app/constants';
+import { IHexagon } from './HexagonTypes';
 
 interface HexagonPngProps {
    left: number;
@@ -12,34 +14,35 @@ interface HexagonPngProps {
 
 const getRandom = (min: number, max: number): number => Math.random() * (max - min) + min;
 
-function HexagonPng({ left, top, isLinkTest = false }: HexagonPngProps) {
+function HexagonPng({ style, isoCoords, cartCoords, id }: IHexagon) {
    const slideUpDown = keyframes`
-      0% { top: ${top}px; }
-      50% { top: ${top + 10}px; }
-      100% { top: ${top}px; }
+      0% { top: ${cartCoords.cartY}px; }
+      50% { top: ${cartCoords.cartY + 10}px; }
+      100% { top: ${cartCoords.cartY}px; }
    `;
    const randomStartDelay = useMemo(() => getRandom(0, 10), []);
-   const randomOscillationPhase = useMemo(() => getRandom(3,4), []);
+   const randomOscillationPhase = useMemo(() => getRandom(3, 4), []);
 
    return (
       <div
          css={css`
             position: fixed;
-            left: ${left}px;
-            top: ${top}px;
+            left: ${cartCoords.cartX}px;
+            top: ${cartCoords.cartY}px;
+            height: auto;
+            width: ${TILE_WIDTH}px;
             animation: ${slideUpDown};
             animation-duration: ${randomOscillationPhase}s;
             animation-delay: ${randomStartDelay}s;
             animation-timing-function: ease-in-out;
             animation-iteration-count: infinite;
-            cursor: ${isLinkTest ? 'pointer' : 'unset'};
+            cursor: ${false ? 'pointer' : 'unset'};
          `}
+         data-iso-id={id}
       >
          <img
-            src={isLinkTest ? hexagonProjects : hexagonImage}
+            src={false ? hexagonProjects : hexagonImage}
             css={css`
-               height: auto;
-               width: 100px;
                opacity: 1;
                transition: opacity 0.66s ease-in-out;
                &:hover {
@@ -50,22 +53,6 @@ function HexagonPng({ left, top, isLinkTest = false }: HexagonPngProps) {
                console.log('clicky!');
             }}
          />
-         {/* {isLinkTest && (
-            <div
-               css={css`
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  transform: skewX(10deg) translate(-50%, -50%);
-                  color: #be9fec;
-                  font-size: 16px;
-                  font-weight: bold;
-                  pointer-events: none;
-               `}
-            >
-               Projects
-            </div>
-         )} */}
       </div>
    );
 }
