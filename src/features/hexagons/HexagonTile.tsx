@@ -17,11 +17,15 @@ const getRandom = (min: number, max: number): number => Math.random() * (max - m
 function HexagonPng({ style, isoCoords, cartCoords, id }: IHexagon) {
    const slideUpDown = keyframes`
       0% { top: ${cartCoords.cartY}px; }
-      50% { top: ${cartCoords.cartY + 10}px; }
+      10% { top: ${cartCoords.cartY}px; }
+      40% { top: ${cartCoords.cartY + 10}px; }
+      60% { top: ${cartCoords.cartY + 10}px; }
+      90% { top: ${cartCoords.cartY}px; }
       100% { top: ${cartCoords.cartY}px; }
    `;
    const randomStartDelay = useMemo(() => getRandom(0, 10), []);
-   const randomOscillationPhase = useMemo(() => getRandom(3, 4), []);
+   const randomOscillationPhase = useMemo(() => getRandom(5, 6), []);
+   //const randomOscillationPhase = 5;
 
    return (
       <div
@@ -35,6 +39,7 @@ function HexagonPng({ style, isoCoords, cartCoords, id }: IHexagon) {
             animation-duration: ${randomOscillationPhase}s;
             animation-delay: ${randomStartDelay}s;
             animation-timing-function: ease-in-out;
+            //animation-timing-function: linear;
             animation-iteration-count: infinite;
             cursor: ${false ? 'pointer' : 'unset'};
          `}
@@ -43,8 +48,8 @@ function HexagonPng({ style, isoCoords, cartCoords, id }: IHexagon) {
          <img
             src={false ? hexagonProjects : hexagonImage}
             css={css`
-               opacity: 1;
-               transition: opacity 0.66s ease-in-out;
+               opacity: 0.95;
+               transition: opacity 0.3s ease-in-out;
                &:hover {
                   opacity: 1;
                }

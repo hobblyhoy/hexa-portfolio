@@ -2,7 +2,13 @@ import { HexagonStyle, IIsometricCoordinates } from '../features/hexagons/Hexago
 
 // Configurables
 export const TILE_WIDTH = 100;
-export const TILE_PIXEL_BUFFER = 4;
+export const TILE_PIXEL_BUFFER = 3;
+
+// The starting point of our hexagon arrays. We're dealing with assets which tile
+// at non orthogonal angles and overlap so to avoid the complex math we push these
+// deep off the screen and let the positioner do the heavy lifting later
+export const SCREEN_X_BASE = window.innerWidth * 2;
+export const SCREEN_Y_BASE = window.innerHeight * -1;
 
 // Specify the locations of the special linking pages
 export const KEY_TILES: { style: HexagonStyle; coords: IIsometricCoordinates }[] = [
