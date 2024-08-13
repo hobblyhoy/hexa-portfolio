@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
 import { TILE_WIDTH } from '../../app/constants';
-import HexagonPng from './HexagonTile';
+import HexagonTile from './HexagonTile';
 import { IHexagon } from './HexagonTypes';
 import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
 
@@ -11,34 +12,53 @@ import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
 // if we tweak the constants or any of the underlying variables it should all
 // still "just work".
 
-const tileCount = Math.round(Math.max(window.innerWidth, window.innerHeight) / TILE_WIDTH) * 3;
-const isoPositions = generateIsoPositions(tileCount, tileCount);
-
-let mappedArr: IHexagon[] = isoPositions.map(x => ({
-   style: 'standard',
-   isoCoords: x,
-   cartCoords: isoToCartesianPosition(x),
-   id: `${x.isoX}-${x.isoY}`,
-}));
-
-console.log('pre ' + mappedArr.length)
-
-// Strip all the elements outside the bounds of our array
-mappedArr = mappedArr.filter(
-   x =>
-      x.cartCoords.cartX > TILE_WIDTH * -1 &&
-      x.cartCoords.cartX < window.innerWidth &&
-      x.cartCoords.cartY > TILE_WIDTH * -1 &&
-      x.cartCoords.cartY < window.innerHeight
-);
-
-console.log('post ' + mappedArr.length)
-
 function HexagonRenderer() {
+   const [mappedArr, setMappedArr] = useState<IHexagon[]>([]);
+
+   useEffect(() => {
+      const tileCount = Math.round(Math.max(window.innerWidth, window.innerHeight) / TILE_WIDTH) * 5;
+      const isoPositions = generateIsoPositions(tileCount, tileCount);
+
+      let hexas: IHexagon[] = isoPositions.map(x => ({
+         style: 'standard',
+         isoCoords: x,
+         cartCoords: isoToCartesianPosition(x),
+         id: `${x.isoX}-${x.isoY}`,
+         opacity: 1,
+      }));
+
+      // Strip all the elements outside the bounds of our array
+      hexas = hexas.filter(
+         x =>
+            x.cartCoords.cartX > TILE_WIDTH * -1 &&
+            x.cartCoords.cartX < window.innerWidth &&
+            x.cartCoords.cartY > TILE_WIDTH * -1 &&
+            x.cartCoords.cartY < window.innerHeight
+      );
+      setMappedArr(hexas);
+   }, []);
+
+   const removeRandomElement = <T,>(arr: T[]): T[] => {
+      if (arr.length === 0) return arr; // If array is empty, return it as is
+
+      const randomIndex = Math.floor(Math.random() * arr.length);
+      arr.splice(randomIndex, 1); // Remove the element at the random index
+
+      console.log({ arr });
+      return arr;
+   };
+
+   useEffect(() => {
+      setInterval(() => {
+         console.log('in timeout');
+         setMappedArr(arr => removeRandomElement(arr));
+      }, 200);
+   }, []);
+
    return (
       <div>
          {mappedArr.map(x => (
-            <HexagonPng key={x.id} {...x} />
+            <HexagonTile key={x.id} {...x} />
          ))}
       </div>
    );
