@@ -13,10 +13,11 @@ import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
 // still "just work".
 
 function HexagonRenderer() {
-   const [mappedArr, setMappedArr] = useState<IHexagon[]>([]);
+   const [hexagonArray, setHexagonArray] = useState<IHexagon[]>([]);
 
    useEffect(() => {
-      const tileCount = Math.round(Math.max(window.innerWidth, window.innerHeight) / TILE_WIDTH) * 5;
+      const tileCount =
+         Math.round(Math.max(window.innerWidth, window.innerHeight) / TILE_WIDTH) * 5;
       const isoPositions = generateIsoPositions(tileCount, tileCount);
 
       let hexas: IHexagon[] = isoPositions.map(x => ({
@@ -35,29 +36,28 @@ function HexagonRenderer() {
             x.cartCoords.cartY > TILE_WIDTH * -1 &&
             x.cartCoords.cartY < window.innerHeight
       );
-      setMappedArr(hexas);
+      setHexagonArray(hexas);
    }, []);
 
-   const removeRandomElement = <T,>(arr: T[]): T[] => {
-      if (arr.length === 0) return arr; // If array is empty, return it as is
-
-      const randomIndex = Math.floor(Math.random() * arr.length);
-      arr.splice(randomIndex, 1); // Remove the element at the random index
-
-      console.log({ arr });
-      return arr;
-   };
-
    useEffect(() => {
-      setInterval(() => {
-         console.log('in timeout');
-         setMappedArr(arr => removeRandomElement(arr));
-      }, 200);
+       let intervalRef = setInterval(() => {
+         console.log('in interval');
+         setHexagonArray(arr => {
+            const hexasStillActive = arr.filter(x => x.opacity > 0);
+            const randomIndex = Math.floor(Math.random() * hexasStillActive.length);
+            const randomHexagon = hexasStillActive[randomIndex];
+            if (!randomHexagon) {
+               clearInterval(intervalRef);
+               return arr;
+            };
+            return arr.map(x => (x.id === randomHexagon.id ? { ...x, opacity: 0 } : x));
+         });
+      }, 1000);
    }, []);
 
    return (
       <div>
-         {mappedArr.map(x => (
+         {hexagonArray.map(x => (
             <HexagonTile key={x.id} {...x} />
          ))}
       </div>

@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { css, keyframes } from '@emotion/react';
 import hexagonImage from '../../assets_test/sketchup_hexa.png';
 import hexagonProjects from '../../assets_test/sketchup_hexa_projects2.png';
-import { TILE_WIDTH } from '../../app/constants';
+import { HEXAGON_FADE_OUT_TIME, TILE_WIDTH } from '../../app/constants';
 import { IHexagon } from './HexagonTypes';
 
 const getRandom = (min: number, max: number): number => Math.random() * (max - min) + min;
@@ -20,6 +20,17 @@ function HexagonTile({ style, isoCoords, cartCoords, id, opacity }: IHexagon) {
    const randomStartDelay = useMemo(() => getRandom(0, 10), []);
    const randomOscillationPhase = useMemo(() => getRandom(5, 6), []);
    
+   // Deactivation once opacity reaches 0 so that click events and whatnot are not
+   // erroneously caught here and browser doesnt need to continue processing the animation
+   const [isDeactivated, setIsDeactivated] = useState(false);
+   useEffect(() => {
+      if (opacity == 0 && !isDeactivated) {
+         setTimeout(() => {
+            setIsDeactivated(true);
+         }, HEXAGON_FADE_OUT_TIME);
+      }
+
+   }, [opacity]);
 
    return (
       <div
@@ -36,7 +47,9 @@ function HexagonTile({ style, isoCoords, cartCoords, id, opacity }: IHexagon) {
             //animation-timing-function: linear;
             animation-iteration-count: infinite;
             cursor: ${false ? 'pointer' : 'unset'};
-            opacity: ${opacity}
+            opacity: ${opacity};
+            transition: opacity ${HEXAGON_FADE_OUT_TIME / 1000}s ease-in-out;
+            display: ${isDeactivated ? 'none' : 'block'}
          `}
          data-iso-id={id}
       >
