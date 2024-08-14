@@ -3,7 +3,7 @@ import { HexagonStyle, IIsometricCoordinates } from '../features/hexagons/Hexago
 // Configurables
 export const TILE_WIDTH = 100;
 export const TILE_PIXEL_BUFFER = 3;
-export const HEXAGON_FADE_OUT_TIME = 1000;
+export const HEXAGON_FADE_OUT_TIME = 3000;
 
 // The starting point of our hexagon arrays. We're dealing with assets which tile
 // at non orthogonal angles and overlap so to avoid the complex math we push these
