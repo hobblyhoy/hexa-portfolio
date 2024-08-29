@@ -15,18 +15,8 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
    // Deactivation once opacity reaches 0 so that click events and whatnot are not
    // erroneously caught here and browser doesnt need to continue processing the animation
    const [isDeactivated, setIsDeactivated] = useState(false);
-   const [opacity, setOpacity] = useState(0);
    useEffect(() => {
-      if (isVisible === null) {
-         // Default state, no updates needed
-      } else if (isVisible === true) {
-         // TODO this is not very react-y, we can rework this to
-         // all be driven by the variable itself (expect maybe the timeout)
-         //console.log('setting opacity to 1');
-         setOpacity(1);
-      } else {
-         console.log('dropping opacity on ' + id);
-         setOpacity(0);
+      if (isVisible === false) {
          setTimeout(() => setIsDeactivated(true), HEXAGON_FADE_TIME);
       }
    }, [isVisible]);
@@ -41,17 +31,15 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
    `;
 
    const getTopValue = (isVisible: boolean | null, cartY: number): number => {
-      if (isVisible === true) {
-         return cartY;
-      } else if (isVisible === false) {
-         return cartY - 30;
-      } else if (isVisible === null) {
-         return cartY + 30;
+      if (isVisible === null) {
+         return cartY - 30; // Entrance state
+      } else if (isVisible === true) {
+         return cartY; // Regular state
+      } else {
+         return cartY + 30; // Exit state
       }
-      return cartY; // default case if needed
    };
 
-   //      top: ${isVisible ? cartCoords.cartY : cartCoords.cartY - 30}px;
    const baseCss = css`
       position: fixed;
       left: ${cartCoords.cartX}px;
@@ -64,7 +52,7 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       animation-timing-function: ease-in-out;
       animation-iteration-count: infinite;
       cursor: ${false ? 'pointer' : 'unset'};
-      opacity: ${opacity};
+      opacity: ${isVisible ? 1 : 0};
       transition: opacity ${HEXAGON_FADE_TIME / 1000}s ease-in-out, top ${HEXAGON_FADE_TIME / 1000}s ease-in-out;
       display: ${isDeactivated ? 'none' : 'block'};
    `;
