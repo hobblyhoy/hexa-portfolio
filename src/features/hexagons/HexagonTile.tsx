@@ -70,7 +70,7 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
    `;
 
    const imgCss = css`
-      opacity: 0.95;
+      opacity: 1;
       transition: opacity 0.3s ease-in-out;
       &:hover {
          opacity: 1;

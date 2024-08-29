@@ -46,7 +46,10 @@ function HexagonRenderer() {
    // I mean it may work but it severely rate limits how quickly we can pull these
    // things out and may cause perf issues on slower machines
    useEffect(() => {
-      const endXCoord = window.innerWidth / 2.5;
+      //const endXLeftCoord = TILE_WIDTH * -1;
+      const endXLeftCoord = window.innerWidth * -0.6;
+      const hideBuffer = window.innerWidth + TILE_WIDTH;
+
       let currentRevealXLine = window.innerWidth + TILE_WIDTH;
       let intervalRef = setInterval(() => {
          setHexagonArray(arr => {
@@ -58,8 +61,8 @@ function HexagonRenderer() {
                )
                .filter(x => !x.isVisible);
 
-            // We'll simultaneously drop the line
-            const currentHideXLine = currentRevealXLine + window.innerWidth / 2 + TILE_WIDTH;
+            // Simulatenously in the same wipe but offset we'll hide the tiles to reveal whats underneath
+            const currentHideXLine = currentRevealXLine + hideBuffer;
             const hexasOnXLineToHide = arr
                .filter(
                   x => x.cartCoords.cartX <= currentHideXLine && x.cartCoords.cartX + TILE_WIDTH >= currentHideXLine
@@ -69,7 +72,7 @@ function HexagonRenderer() {
             console.log({ hexasOnXLineToReveal, currentXLine: currentRevealXLine });
             currentRevealXLine -= TILE_WIDTH / 4;
 
-            if (currentRevealXLine < TILE_WIDTH * -1) {
+            if (currentRevealXLine < endXLeftCoord) {
                clearInterval(intervalRef);
                return arr;
             }
