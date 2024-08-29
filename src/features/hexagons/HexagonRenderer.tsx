@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TILE_WIDTH } from '../../app/constants';
+import { HEXAGON_WIPE_INTERVAL, TILE_WIDTH } from '../../app/constants';
 import HexagonTile from './HexagonTile';
 import { IHexagon } from './HexagonTypes';
 import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
@@ -24,10 +24,10 @@ function HexagonRenderer() {
          isoCoords: x,
          cartCoords: isoToCartesianPosition(x),
          id: `${x.isoX}-${x.isoY}`,
-         opacity: 1,
+         isVisible: null,
       }));
 
-      // Strip all the elements outside the bounds of our array
+      // Strip all the elements outside the bounds of the screen
       hexas = hexas.filter(
          x =>
             x.cartCoords.cartX > TILE_WIDTH * -1 &&
@@ -35,36 +35,56 @@ function HexagonRenderer() {
             x.cartCoords.cartY > TILE_WIDTH * -1 &&
             x.cartCoords.cartY < window.innerHeight
       );
+
+      // Temp debug
+      //hexas = hexas.filter(x => x.id === '27-12' || x.id === '22-12');
+
       setHexagonArray(hexas);
    }, []);
 
-   // This is having an identity crisis-
-   // the slow oscilation effect looks very cool
-   // the fast depletion of the tiles looks cool
-   // but the two together feels contradictory, it doesn't jive
-   // will need to rework
+   // Probs need to rework this so that we're pulling out multiple on each pass
+   // I mean it may work but it severely rate limits how quickly we can pull these
+   // things out and may cause perf issues on slower machines
    useEffect(() => {
       const endXCoord = window.innerWidth / 2.5;
+      let currentRevealXLine = window.innerWidth + TILE_WIDTH;
       let intervalRef = setInterval(() => {
          setHexagonArray(arr => {
-            const filteredArr = arr.filter(x => x.cartCoords.cartX > endXCoord && x.opacity > 0);
-            if (!filteredArr.length) {
+            // First wipe, we process the full screen from right to left filling
+            // the screen with Hexagons
+            const hexasOnXLineToReveal = arr
+               .filter(
+                  x => x.cartCoords.cartX <= currentRevealXLine && x.cartCoords.cartX + TILE_WIDTH >= currentRevealXLine
+               )
+               .filter(x => !x.isVisible);
+
+            // We'll simultaneously drop the line
+            const currentHideXLine = currentRevealXLine + window.innerWidth / 2 + TILE_WIDTH;
+            const hexasOnXLineToHide = arr
+               .filter(
+                  x => x.cartCoords.cartX <= currentHideXLine && x.cartCoords.cartX + TILE_WIDTH >= currentHideXLine
+               )
+               .filter(x => x.isVisible);
+
+            console.log({ hexasOnXLineToReveal, currentXLine: currentRevealXLine });
+            currentRevealXLine -= TILE_WIDTH / 4;
+
+            if (currentRevealXLine < TILE_WIDTH * -1) {
                clearInterval(intervalRef);
                return arr;
             }
-            const furthestRightHexa = filteredArr.reduce((max, obj) =>
-               obj.cartCoords.cartX > max.cartCoords.cartX ? obj : max
-            );
-            console.log({ furthestRightHexa });
-            // const hexasToRemove = arr.filter(
-            //    x => x.opacity > 0 && x.cartCoords.cartX > currentXCoord && x.cartCoords.cartX > endXCoord
-            // );
-            // const randomIndex = Math.floor(Math.random() * hexasToRemove.length);
-            // const randomHexagon = hexasToRemove[randomIndex];
-            return arr.map(x => (x.id === furthestRightHexa.id ? { ...x, opacity: 0 } : x));
-            //return arr.map(x => (hexasToRemove.map(y => y.id).includes(x.id) ? { ...x, opacity: 0 } : x));
+
+            return arr.map(x => {
+               if (hexasOnXLineToReveal.map(y => y.id).includes(x.id)) {
+                  return { ...x, isVisible: true };
+               } else if (hexasOnXLineToHide.map(y => y.id).includes(x.id)) {
+                  return { ...x, isVisible: false };
+               } else {
+                  return x;
+               }
+            });
          });
-      }, 25);
+      }, HEXAGON_WIPE_INTERVAL);
    }, []);
 
    return (

@@ -1,5 +1,11 @@
-import { TILE_WIDTH, FULL_SIZE_ASSET_WIDTH, TILE_PIXEL_BUFFER, SCREEN_X_BASE, SCREEN_Y_BASE } from "../../app/constants";
-import { IIsometricCoordinates, ICartesianCoordinates } from "./HexagonTypes";
+import {
+   TILE_WIDTH,
+   FULL_SIZE_ASSET_WIDTH,
+   TILE_PIXEL_BUFFER,
+   SCREEN_X_BASE,
+   SCREEN_Y_BASE,
+} from '../../app/constants';
+import { IIsometricCoordinates, ICartesianCoordinates, IHexagon } from './HexagonTypes';
 
 export const generateIsoPositions = (xCount: number, yCount: number): IIsometricCoordinates[] => {
    const isoPositions: IIsometricCoordinates[] = [];
@@ -33,3 +39,5 @@ export const isoToCartesianPosition = (isoCoords: IIsometricCoordinates): ICarte
 
    return { cartX, cartY };
 };
+
+export const setVisibilityAtXCoord = (hexas: IHexagon[], xCoord: number, isVisible: boolean) => {};

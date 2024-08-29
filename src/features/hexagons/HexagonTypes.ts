@@ -5,7 +5,7 @@ export interface IHexagon {
    isoCoords: IIsometricCoordinates;
    cartCoords: ICartesianCoordinates;
    id: string;
-   opacity: number;
+   isVisible: boolean | null;
 }
 
 // Positioning
