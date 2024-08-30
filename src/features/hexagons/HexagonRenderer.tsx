@@ -18,6 +18,7 @@ function HexagonRenderer() {
    const [hexagonArray, setHexagonArray] = useState<IHexagon[]>([]);
    const dispatch = useAppDispatch();
 
+   // Initialize the Hexagon and get them positioned appropriately on the screen
    useEffect(() => {
       const tileCount = Math.round(Math.max(window.innerWidth, window.innerHeight) / TILE_WIDTH) * 5;
       const isoPositions = generateIsoPositions(tileCount, tileCount);
@@ -40,58 +41,61 @@ function HexagonRenderer() {
       );
 
       setHexagonArray(hexas);
-
       dispatch(initialized());
    }, []);
 
+   // Build an interval and a variable to manage tracking an X coordinate
+   // move across the screen
+   const endXLeftCoord = window.innerWidth * -0.6;
+   const hideBuffer = window.innerWidth + TILE_WIDTH;
+   const [currentRevealXLine, setCurrentRevealXLine] = useState(window.innerWidth + TILE_WIDTH);
    useEffect(() => {
-      const endXLeftCoord = window.innerWidth * -0.6;
-      const hideBuffer = window.innerWidth + TILE_WIDTH;
-
-      let currentRevealXLine = window.innerWidth + TILE_WIDTH;
       let intervalRef = setInterval(() => {
-         setHexagonArray(arr => {
-            // First wipe, we process the full screen from right to left filling
-            // the screen with Hexagons
-            const hexasOnXLineToReveal = arr
-               .filter(
-                  x => x.cartCoords.cartX <= currentRevealXLine && x.cartCoords.cartX + TILE_WIDTH >= currentRevealXLine
-               )
-               .filter(x => !x.isVisible);
-
-            // Simultaneously but offset a screen width we hide the tiles to reveal whats underneath
-            const currentHideXLine = currentRevealXLine + hideBuffer;
-            const hexasOnXLineToHide = arr
-               .filter(
-                  x => x.cartCoords.cartX <= currentHideXLine && x.cartCoords.cartX + TILE_WIDTH >= currentHideXLine
-               )
-               .filter(x => x.isVisible);
-
-            currentRevealXLine -= TILE_WIDTH / 4;
-
-            // Lifecycle notifications
-            if (currentRevealXLine - TILE_WIDTH < 0) {
-               dispatch(filledScreen());
-            }
-
-            if (currentRevealXLine < endXLeftCoord) {
-               dispatch(revealed());
+         setCurrentRevealXLine(currentX => {
+            let newX = currentX - TILE_WIDTH / 4;
+            if (newX < endXLeftCoord) {
                clearInterval(intervalRef);
-               return arr;
             }
-
-            return arr.map(x => {
-               if (hexasOnXLineToReveal.map(y => y.id).includes(x.id)) {
-                  return { ...x, isVisible: true };
-               } else if (hexasOnXLineToHide.map(y => y.id).includes(x.id)) {
-                  return { ...x, isVisible: false };
-               } else {
-                  return x;
-               }
-            });
+            return newX;
          });
       }, HEXAGON_WIPE_INTERVAL);
    }, []);
+
+   // Handle the wipe and lifecycle notifications
+   useEffect(() => {
+      const currentHideXLine = currentRevealXLine + hideBuffer;
+
+      // First wipe - Reveal phase
+      const hexasOnXLineToReveal = hexagonArray
+         .filter(x => x.cartCoords.cartX <= currentRevealXLine && x.cartCoords.cartX + TILE_WIDTH >= currentRevealXLine)
+         .filter(x => !x.isVisible);
+
+      // Second wipe - hide phase
+      const hexasOnXLineToHide = hexagonArray
+         .filter(x => x.cartCoords.cartX <= currentHideXLine && x.cartCoords.cartX + TILE_WIDTH >= currentHideXLine)
+         .filter(x => x.isVisible);
+
+      // Lifecycle notifications
+      if (currentRevealXLine - TILE_WIDTH < 0) {
+         dispatch(filledScreen());
+      }
+      if (currentRevealXLine < endXLeftCoord) {
+         dispatch(revealed());
+      }
+
+      // Perform the actual Array update
+      setHexagonArray(arr => {
+         return arr.map(x => {
+            if (hexasOnXLineToReveal.map(y => y.id).includes(x.id)) {
+               return { ...x, isVisible: true };
+            } else if (hexasOnXLineToHide.map(y => y.id).includes(x.id)) {
+               return { ...x, isVisible: false };
+            } else {
+               return x;
+            }
+         });
+      });
+   }, [currentRevealXLine]);
 
    return (
       <div>
