@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
+import hexagonReducer from '../features/hexagons/hexagonSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    hexagon: hexagonReducer,
   },
 });
 

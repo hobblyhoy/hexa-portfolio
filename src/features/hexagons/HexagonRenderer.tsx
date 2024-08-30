@@ -3,6 +3,8 @@ import { HEXAGON_WIPE_INTERVAL, TILE_WIDTH } from '../../app/constants';
 import HexagonTile from './HexagonTile';
 import { IHexagon } from './HexagonTypes';
 import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
+import { useAppDispatch } from '../../app/hooks';
+import { filledScreen, initialized, revealed } from './hexagonSlice';
 
 // The plan for filling the screen with hexagons is to initially be dumb with it-
 // we will fill a large multi dimensional array much larger than any actual real screen
@@ -14,6 +16,7 @@ import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
 
 function HexagonRenderer() {
    const [hexagonArray, setHexagonArray] = useState<IHexagon[]>([]);
+   const dispatch = useAppDispatch();
 
    useEffect(() => {
       const tileCount = Math.round(Math.max(window.innerWidth, window.innerHeight) / TILE_WIDTH) * 5;
@@ -36,17 +39,12 @@ function HexagonRenderer() {
             x.cartCoords.cartY < window.innerHeight
       );
 
-      // Temp debug
-      //hexas = hexas.filter(x => x.id === '27-12' || x.id === '22-12');
-
       setHexagonArray(hexas);
+
+      dispatch(initialized());
    }, []);
 
-   // Probs need to rework this so that we're pulling out multiple on each pass
-   // I mean it may work but it severely rate limits how quickly we can pull these
-   // things out and may cause perf issues on slower machines
    useEffect(() => {
-      //const endXLeftCoord = TILE_WIDTH * -1;
       const endXLeftCoord = window.innerWidth * -0.6;
       const hideBuffer = window.innerWidth + TILE_WIDTH;
 
@@ -61,7 +59,7 @@ function HexagonRenderer() {
                )
                .filter(x => !x.isVisible);
 
-            // Simulatenously in the same wipe but offset we'll hide the tiles to reveal whats underneath
+            // Simultaneously but offset a screen width we hide the tiles to reveal whats underneath
             const currentHideXLine = currentRevealXLine + hideBuffer;
             const hexasOnXLineToHide = arr
                .filter(
@@ -69,10 +67,15 @@ function HexagonRenderer() {
                )
                .filter(x => x.isVisible);
 
-            console.log({ hexasOnXLineToReveal, currentXLine: currentRevealXLine });
             currentRevealXLine -= TILE_WIDTH / 4;
 
+            // Lifecycle notifications
+            if (currentRevealXLine - TILE_WIDTH < 0) {
+               dispatch(filledScreen());
+            }
+
             if (currentRevealXLine < endXLeftCoord) {
+               dispatch(revealed());
                clearInterval(intervalRef);
                return arr;
             }

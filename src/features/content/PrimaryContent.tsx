@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useAppSelector } from '../../app/hooks';
 
 const baseCss = css`
    display: flex;
@@ -7,8 +8,10 @@ const baseCss = css`
 `;
 
 function PrimaryContent() {
+   const screenIsFilledWithHexagons = useAppSelector(store => store.hexagon.hasFilledScreen);
    return (
-      <div css={baseCss}>
+      // <div css={baseCss} className={screenIsFilledWithHexagons ? 'opacity-100' : 'opacity-0'}>
+      <div css={baseCss} className={'opacity-100'}>
          <div className="flex flex-col justify-center w-full">
             <div className="text-white mt-16">Hey Welcome!</div>
             <div className="text-white mt-16">
