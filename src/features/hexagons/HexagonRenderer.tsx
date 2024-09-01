@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { HEXAGON_WIPE_INTERVAL, TILE_WIDTH } from '../../app/constants';
 import HexagonTile from './HexagonTile';
 import { IHexagon } from './HexagonTypes';
-import { findHexagonAtPosition, generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
+import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
 import { useAppDispatch } from '../../app/hooks';
 import { filledScreen, initialized, revealed } from './hexagonSlice';
 
@@ -41,8 +41,24 @@ function HexagonRenderer() {
       );
 
       // Place our special tiles
-      let aboutTile = findHexagonAtPosition(hexas, { cartX: window.innerWidth / 4, cartY: window.innerHeight / 4 });
+      //let aboutTile = findHexagonAtPosition(hexas, { cartX: window.innerWidth / 4, cartY: window.innerHeight / 4 });
+      const aboutTile = hexas.getHexagonAtCartesianCoords({
+         cartX: window.innerWidth / 4,
+         cartY: window.innerHeight / 4,
+      });
       aboutTile.style = 'about';
+
+      const projectsTile = hexas.getHexagonAtIsoCoords({
+         isoX: aboutTile.isoCoords.isoX,
+         isoY: aboutTile.isoCoords.isoY + 2,
+      });
+      projectsTile.style = 'projects';
+
+      const workTile = hexas.getHexagonAtIsoCoords({
+         isoX: projectsTile.isoCoords.isoX - 1,
+         isoY: projectsTile.isoCoords.isoY + 2,
+      });
+      workTile.style = 'work';
 
       setHexagonArray(hexas);
       dispatch(initialized());

@@ -7,11 +7,12 @@ import hexagonAbout from '../../assets/sketchup_hexa_about.png';
 import hexagonWork from '../../assets/sketchup_hexa_work.png';
 import { HEXAGON_FADE_TIME, TILE_WIDTH } from '../../app/constants';
 import { HexagonStyle, IHexagon } from './HexagonTypes';
+import { useAppSelector } from '../../app/hooks';
 
 const getRandom = (min: number, max: number): number => Math.random() * (max - min) + min;
 
 function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) {
-   const randomStartDelay = useMemo(() => getRandom(10, 25), []);
+   const randomStartDelay = useMemo(() => getRandom(0, 10), []);
    const randomOscillationPhase = useMemo(() => getRandom(5, 6), []);
 
    // Deactivation once opacity reaches 0 so that click events and whatnot are not
@@ -48,15 +49,18 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       top: ${getTopValue(isVisible, cartCoords.cartY)}px;
       height: auto;
       width: ${TILE_WIDTH}px;
+      cursor: ${style === 'standard' ? 'unset' : 'pointer'};
+      opacity: ${isVisible ? 1 : 0};
+      transition: opacity ${HEXAGON_FADE_TIME / 1000}s ease-in-out, top ${HEXAGON_FADE_TIME / 1000}s ease-in-out;
+      display: ${isDeactivated ? 'none' : 'block'};
+   `;
+
+   const animationCss = css`
       animation: ${slideUpDown};
       animation-duration: ${randomOscillationPhase}s;
       animation-delay: ${randomStartDelay}s;
       animation-timing-function: ease-in-out;
       animation-iteration-count: infinite;
-      cursor: ${false ? 'pointer' : 'unset'};
-      opacity: ${isVisible ? 1 : 0};
-      transition: opacity ${HEXAGON_FADE_TIME / 1000}s ease-in-out, top ${HEXAGON_FADE_TIME / 1000}s ease-in-out;
-      display: ${isDeactivated ? 'none' : 'block'};
    `;
 
    const imgCss = css`
@@ -82,8 +86,15 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       }
    };
 
+   const hasRevealed = useAppSelector(store => store.hexagon.hasRevealed);
+
    return (
-      <div css={baseCss} data-iso-id={id}>
+      <div
+         css={css`
+            ${baseCss}${hasRevealed ? animationCss : null}
+         `}
+         data-iso-id={id}
+      >
          <img
             src={mapStyleToImageSrc(style)}
             css={imgCss}

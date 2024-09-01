@@ -40,8 +40,15 @@ export const isoToCartesianPosition = (isoCoords: IIsometricCoordinates): ICarte
    return { cartX, cartY };
 };
 
-export const findHexagonAtPosition = (hexas: IHexagon[], coords: ICartesianCoordinates) => {
-   let found = hexas.find(
+declare global {
+   interface Array<T> {
+      getHexagonAtCartesianCoords(this: IHexagon[], coords: ICartesianCoordinates): IHexagon;
+      getHexagonAtIsoCoords(this: IHexagon[], coords: IIsometricCoordinates): IHexagon;
+   }
+}
+
+Array.prototype.getHexagonAtCartesianCoords = function (this: IHexagon[], coords: ICartesianCoordinates): IHexagon {
+   let found = this.find(
       h =>
          h.cartCoords.cartX <= coords.cartX &&
          h.cartCoords.cartX + TILE_WIDTH >= coords.cartX &&
@@ -50,5 +57,11 @@ export const findHexagonAtPosition = (hexas: IHexagon[], coords: ICartesianCoord
    );
 
    if (!found) throw `No hexagon found at position: ${coords?.cartX}/${coords?.cartY}`;
+   return found;
+};
+
+Array.prototype.getHexagonAtIsoCoords = function (this: IHexagon[], coords: IIsometricCoordinates): IHexagon {
+   let found = this.find(h => h.isoCoords.isoX === coords.isoX && h.isoCoords.isoY === coords.isoY);
+   if (!found) throw `No hexagon found at position: ${coords?.isoX}/${coords?.isoY}`;
    return found;
 };
