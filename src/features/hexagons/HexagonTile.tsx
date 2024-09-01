@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useMemo, useState } from 'react';
 import { css, keyframes } from '@emotion/react';
-import hexagonImage from '../../assets_test/sketchup_hexa.png';
-import hexagonProjects from '../../assets_test/sketchup_hexa_projects2.png';
+import hexagonImage from '../../assets/sketchup_hexa.png';
+import hexagonProjects from '../../assets/sketchup_hexa_projects2.png';
+import hexagonAbout from '../../assets/sketchup_hexa_about.png';
+import hexagonWork from '../../assets/sketchup_hexa_work.png';
 import { HEXAGON_FADE_TIME, TILE_WIDTH } from '../../app/constants';
-import { IHexagon } from './HexagonTypes';
+import { HexagonStyle, IHexagon } from './HexagonTypes';
 
 const getRandom = (min: number, max: number): number => Math.random() * (max - min) + min;
 
@@ -65,10 +67,25 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       }
    `;
 
+   const mapStyleToImageSrc = (style: HexagonStyle) => {
+      switch (style) {
+         case 'standard':
+            return hexagonImage;
+         case 'about':
+            return hexagonAbout;
+         case 'projects':
+            return hexagonProjects;
+         case 'work':
+            return hexagonWork;
+         default:
+            throw new Error(`Unknown style: ${style}`);
+      }
+   };
+
    return (
       <div css={baseCss} data-iso-id={id}>
          <img
-            src={false ? hexagonProjects : hexagonImage}
+            src={mapStyleToImageSrc(style)}
             css={imgCss}
             onClick={() => {
                console.log('clicky!');

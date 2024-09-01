@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { HEXAGON_WIPE_INTERVAL, TILE_WIDTH } from '../../app/constants';
 import HexagonTile from './HexagonTile';
 import { IHexagon } from './HexagonTypes';
-import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
+import { findHexagonAtPosition, generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
 import { useAppDispatch } from '../../app/hooks';
 import { filledScreen, initialized, revealed } from './hexagonSlice';
 
@@ -18,7 +18,7 @@ function HexagonRenderer() {
    const [hexagonArray, setHexagonArray] = useState<IHexagon[]>([]);
    const dispatch = useAppDispatch();
 
-   // Initialize the Hexagon and get them positioned appropriately on the screen
+   // Initialize the Hexagons and get them positioned appropriately on the screen
    useEffect(() => {
       const tileCount = Math.round(Math.max(window.innerWidth, window.innerHeight) / TILE_WIDTH) * 5;
       const isoPositions = generateIsoPositions(tileCount, tileCount);
@@ -39,6 +39,10 @@ function HexagonRenderer() {
             x.cartCoords.cartY > TILE_WIDTH * -1 &&
             x.cartCoords.cartY < window.innerHeight
       );
+
+      // Place our special tiles
+      let aboutTile = findHexagonAtPosition(hexas, { cartX: window.innerWidth / 4, cartY: window.innerHeight / 4 });
+      aboutTile.style = 'about';
 
       setHexagonArray(hexas);
       dispatch(initialized());

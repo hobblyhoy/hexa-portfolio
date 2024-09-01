@@ -40,4 +40,15 @@ export const isoToCartesianPosition = (isoCoords: IIsometricCoordinates): ICarte
    return { cartX, cartY };
 };
 
-export const setVisibilityAtXCoord = (hexas: IHexagon[], xCoord: number, isVisible: boolean) => {};
+export const findHexagonAtPosition = (hexas: IHexagon[], coords: ICartesianCoordinates) => {
+   let found = hexas.find(
+      h =>
+         h.cartCoords.cartX <= coords.cartX &&
+         h.cartCoords.cartX + TILE_WIDTH >= coords.cartX &&
+         h.cartCoords.cartY <= coords.cartY &&
+         h.cartCoords.cartY + TILE_WIDTH >= coords.cartY
+   );
+
+   if (!found) throw `No hexagon found at position: ${coords?.cartX}/${coords?.cartY}`;
+   return found;
+};
