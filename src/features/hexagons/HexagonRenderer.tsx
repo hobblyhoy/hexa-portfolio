@@ -44,7 +44,7 @@ function HexagonRenderer() {
       //let aboutTile = findHexagonAtPosition(hexas, { cartX: window.innerWidth / 4, cartY: window.innerHeight / 4 });
       const aboutTile = hexas.getHexagonAtCartesianCoords({
          cartX: window.innerWidth / 4,
-         cartY: window.innerHeight / 4,
+         cartY: window.innerHeight / 3,
       });
       aboutTile.style = 'about';
 

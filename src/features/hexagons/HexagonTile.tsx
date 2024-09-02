@@ -65,9 +65,9 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
 
    const imgCss = css`
       opacity: 1;
-      transition: opacity 0.3s ease-in-out;
+      transition: opacity 0.66s ease-in-out;
       &:hover {
-         opacity: 1;
+         opacity: 0.75;
       }
    `;
 
@@ -91,13 +91,13 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
    return (
       <div
          css={css`
-            ${baseCss}${hasRevealed ? animationCss : null}
+            ${baseCss}${hasRevealed && style === 'standard' ? animationCss : null}
          `}
          data-iso-id={id}
       >
          <img
             src={mapStyleToImageSrc(style)}
-            css={imgCss}
+            css={style !== 'standard' || imgCss}
             onClick={() => {
                console.log('clicky!');
             }}

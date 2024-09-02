@@ -1,7 +1,7 @@
 import { HexagonStyle, IIsometricCoordinates } from '../features/hexagons/HexagonTypes';
 
 // Configurables
-export const TILE_WIDTH = 125;
+export const TILE_WIDTH = 150;
 export const TILE_PIXEL_BUFFER = 3;
 export const HEXAGON_FADE_TIME = 500; // typically 500 but lower for debugging
 export const HEXAGON_WIPE_INTERVAL = 125; // typically 125 but lower for debugging
