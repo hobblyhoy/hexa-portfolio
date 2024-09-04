@@ -5,6 +5,7 @@ export const TILE_WIDTH = 150;
 export const TILE_PIXEL_BUFFER = 3;
 export const HEXAGON_FADE_TIME = 500; // typically 500 but lower for debugging
 export const HEXAGON_WIPE_INTERVAL = 125; // typically 125 but lower for debugging
+export const HEXAGON_WIPE_FINISH_POINT = window.innerWidth * -0.6;
 
 // The starting point of our hexagon arrays. We're dealing with assets which tile
 // at non orthogonal angles and overlap so to avoid the complex math we push these

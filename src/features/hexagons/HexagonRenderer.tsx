@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { HEXAGON_WIPE_INTERVAL, TILE_WIDTH } from '../../app/constants';
+import { HEXAGON_WIPE_FINISH_POINT, HEXAGON_WIPE_INTERVAL, TILE_WIDTH } from '../../app/constants';
 import HexagonTile from './HexagonTile';
 import { IHexagon } from './HexagonTypes';
 import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
@@ -66,14 +66,12 @@ function HexagonRenderer() {
 
    // Build an interval and a variable to manage tracking an X coordinate
    // move across the screen
-   const endXLeftCoord = window.innerWidth * -0.6;
-   const hideBuffer = window.innerWidth + TILE_WIDTH;
    const [currentRevealXLine, setCurrentRevealXLine] = useState(window.innerWidth + TILE_WIDTH);
    useEffect(() => {
       let intervalRef = setInterval(() => {
          setCurrentRevealXLine(currentX => {
             let newX = currentX - TILE_WIDTH / 4;
-            if (newX < endXLeftCoord) {
+            if (newX < HEXAGON_WIPE_FINISH_POINT) {
                clearInterval(intervalRef);
             }
             return newX;
@@ -83,6 +81,7 @@ function HexagonRenderer() {
 
    // Handle the wipe and lifecycle notifications
    useEffect(() => {
+      const hideBuffer = window.innerWidth + TILE_WIDTH;
       const currentHideXLine = currentRevealXLine + hideBuffer;
 
       // First wipe - Reveal phase
@@ -99,7 +98,7 @@ function HexagonRenderer() {
       if (currentRevealXLine - TILE_WIDTH < 0) {
          dispatch(filledScreen());
       }
-      if (currentRevealXLine < endXLeftCoord) {
+      if (currentRevealXLine < HEXAGON_WIPE_FINISH_POINT) {
          dispatch(revealed());
       }
 
