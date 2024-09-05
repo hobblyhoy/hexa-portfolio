@@ -8,12 +8,14 @@ import hexagonWork from '../../assets/sketchup_hexa_work.png';
 import { HEXAGON_FADE_TIME, TILE_WIDTH } from '../../app/constants';
 import { HexagonStyle, IHexagon } from './HexagonTypes';
 import { useAppSelector } from '../../app/hooks';
+import useBreakpoint from '../customHooks/useBreakpoint';
 
 const getRandom = (min: number, max: number): number => Math.random() * (max - min) + min;
 
 function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) {
    const randomStartDelay = useMemo(() => getRandom(0, 10), []);
    const randomOscillationPhase = useMemo(() => getRandom(5, 6), []);
+   const { isDesktop } = useBreakpoint();
 
    // Deactivation once opacity reaches 0 so that click events and whatnot are not
    // erroneously caught here and browser doesnt need to continue processing the animation
@@ -63,13 +65,19 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       animation-iteration-count: infinite;
    `;
 
-   const imgCss = css`
-      opacity: 1;
-      transition: opacity 0.66s ease-in-out;
-      &:hover {
-         opacity: 0.75;
-      }
-   `;
+   const imgCss = () => {
+      return isDesktop
+         ? css`
+              opacity: 1;
+              transition: opacity 0.66s ease-in-out;
+              &:hover {
+                 opacity: 0.75;
+              }
+           `
+         : css`
+              opacity: 0.05;
+           `;
+   };
 
    const mapStyleToImageSrc = (style: HexagonStyle) => {
       switch (style) {
@@ -97,7 +105,7 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       >
          <img
             src={mapStyleToImageSrc(style)}
-            css={style !== 'standard' || imgCss}
+            css={style !== 'standard' || imgCss()}
             onClick={() => {
                console.log('clicky!');
             }}

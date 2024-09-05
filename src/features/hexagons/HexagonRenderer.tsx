@@ -5,6 +5,7 @@ import { IHexagon } from './HexagonTypes';
 import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
 import { useAppDispatch } from '../../app/hooks';
 import { filledScreen, initialized, revealed } from './hexagonSlice';
+import useBreakpoint from '../customHooks/useBreakpoint';
 
 // The plan for filling the screen with hexagons is to initially be dumb with it-
 // we will fill a large multi dimensional array much larger than any actual real screen
@@ -17,6 +18,7 @@ import { filledScreen, initialized, revealed } from './hexagonSlice';
 function HexagonRenderer() {
    const [hexagonArray, setHexagonArray] = useState<IHexagon[]>([]);
    const dispatch = useAppDispatch();
+   const { isDesktop, screenWidth } = useBreakpoint();
 
    // Initialize the Hexagons and get them positioned appropriately on the screen
    useEffect(() => {
@@ -28,7 +30,7 @@ function HexagonRenderer() {
          isoCoords: x,
          cartCoords: isoToCartesianPosition(x),
          id: `${x.isoX}-${x.isoY}`,
-         isVisible: null,
+         isVisible: isDesktop ? null : true,
       }));
 
       // Strip all the elements outside the bounds of the screen
@@ -40,34 +42,42 @@ function HexagonRenderer() {
             x.cartCoords.cartY < window.innerHeight
       );
 
-      // Place our special tiles
-      //let aboutTile = findHexagonAtPosition(hexas, { cartX: window.innerWidth / 4, cartY: window.innerHeight / 4 });
-      const aboutTile = hexas.getHexagonAtCartesianCoords({
-         cartX: window.innerWidth / 4,
-         cartY: window.innerHeight / 3,
-      });
-      aboutTile.style = 'about';
+      // Place our special tiles (desktop view only)
+      if (isDesktop) {
+         const aboutTile = hexas.getHexagonAtCartesianCoords({
+            cartX: window.innerWidth / 4,
+            cartY: window.innerHeight / 3,
+         });
+         aboutTile.style = 'about';
 
-      const projectsTile = hexas.getHexagonAtIsoCoords({
-         isoX: aboutTile.isoCoords.isoX,
-         isoY: aboutTile.isoCoords.isoY + 2,
-      });
-      projectsTile.style = 'projects';
+         const projectsTile = hexas.getHexagonAtIsoCoords({
+            isoX: aboutTile.isoCoords.isoX,
+            isoY: aboutTile.isoCoords.isoY + 2,
+         });
+         projectsTile.style = 'projects';
 
-      const workTile = hexas.getHexagonAtIsoCoords({
-         isoX: projectsTile.isoCoords.isoX - 1,
-         isoY: projectsTile.isoCoords.isoY + 2,
-      });
-      workTile.style = 'work';
+         const workTile = hexas.getHexagonAtIsoCoords({
+            isoX: projectsTile.isoCoords.isoX - 1,
+            isoY: projectsTile.isoCoords.isoY + 2,
+         });
+         workTile.style = 'work';
+      }
 
       setHexagonArray(hexas);
       dispatch(initialized());
-   }, []);
+
+      if (!isDesktop) {
+         dispatch(filledScreen());
+         dispatch(revealed());
+      }
+   }, [isDesktop]);
 
    // Build an interval and a variable to manage tracking an X coordinate
    // move across the screen
    const [currentRevealXLine, setCurrentRevealXLine] = useState(window.innerWidth + TILE_WIDTH);
    useEffect(() => {
+      if (!isDesktop) return;
+
       let intervalRef = setInterval(() => {
          setCurrentRevealXLine(currentX => {
             let newX = currentX - TILE_WIDTH / 4;
@@ -77,7 +87,7 @@ function HexagonRenderer() {
             return newX;
          });
       }, HEXAGON_WIPE_INTERVAL);
-   }, []);
+   }, [isDesktop]);
 
    // Handle the wipe and lifecycle notifications
    useEffect(() => {
@@ -115,6 +125,13 @@ function HexagonRenderer() {
          });
       });
    }, [currentRevealXLine]);
+
+   // TODO 
+   // Special handling of resize events. (screenWidth)
+   // We dont want to put the user through this whole animation
+   // every time they resize (or are checking out mobile) so 
+   // we need some means of immediately correcting the screen
+   // to the end state as soon as they resize.
 
    return (
       <div>

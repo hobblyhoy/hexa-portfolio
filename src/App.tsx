@@ -1,13 +1,19 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React from 'react';
-import './App.css';
 import HexagonRenderer from './features/hexagons/HexagonRenderer';
-import PrimaryContent from './features/content/PrimaryContent';
+import ContentFrame from './features/content/ContentFrame';
+
+const baseCss = css`
+   text-align: center;
+   overflow-x: hidden;
+`
 
 function App() {
    return (
-      <div className="App">
+      <div className="App" css={baseCss}>
          <HexagonRenderer />
-         <PrimaryContent />
+         <ContentFrame />
       </div>
    );
 }
