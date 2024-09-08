@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useMemo, useState } from 'react';
 import { css, keyframes } from '@emotion/react';
-import hexagonImage from '../../assets/sketchup_hexa.png';
+import hexagonImage from '../../assets/sketchup_hexa_v2.png';
 import hexagonProjects from '../../assets/sketchup_hexa_projects2.png';
 import hexagonAbout from '../../assets/sketchup_hexa_about.png';
 import hexagonWork from '../../assets/sketchup_hexa_work.png';
@@ -15,10 +15,11 @@ const getRandom = (min: number, max: number): number => Math.random() * (max - m
 function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) {
    const randomStartDelay = useMemo(() => getRandom(0, 10), []);
    const randomOscillationPhase = useMemo(() => getRandom(5, 6), []);
+   const loadingAnimationFinished = useAppSelector(store => store.hexagon.hasRevealed);
    const { isDesktop } = useBreakpoint();
 
    // Deactivation once opacity reaches 0 so that click events and whatnot are not
-   // erroneously caught here and browser doesnt need to continue processing the animation
+   // erroneously caught here and browser doesn't need to continue processing the animation
    const [isDeactivated, setIsDeactivated] = useState(false);
    useEffect(() => {
       if (isVisible === false) {
@@ -66,17 +67,54 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
    `;
 
    const imgCss = () => {
-      return isDesktop
-         ? css`
-              opacity: 1;
-              transition: opacity 0.66s ease-in-out;
-              &:hover {
-                 opacity: 0.75;
-              }
-           `
-         : css`
-              opacity: 0.05;
-           `;
+      // What in all do I have to worry about here?
+      // when we're on mobile we're only ever displaying low opacity
+      // until the loading animation is done we dont have have hover
+      // hover does not apply to the desktop style of non standard
+      if (!isDesktop) {
+         return css`
+            opacity: 0.05;
+         `;
+      }
+
+      if (loadingAnimationFinished && style === 'standard') {
+         return css`
+               opacity: 1;
+               transition: opacity 0.66s ease-in-out;
+               &:hover {
+                  opacity: 0.75;
+               }
+            `; 
+      }
+
+      return null;
+
+      // if (isDesktop) {
+      //    if (loadingAnimationFinished) {
+      //       return css`
+      //          opacity: 1;
+      //          transition: opacity 0.66s ease-in-out;
+      //          &:hover {
+      //             opacity: 0.75;
+      //          }
+      //       `;
+      //    } else {
+      //       return null;
+      //    }
+      // } else {
+      // }
+
+      // return isDesktop
+      //    ? css`
+      //         opacity: 1;
+      //         transition: opacity 0.66s ease-in-out;
+      //         &:hover {
+      //            opacity: 0.75;
+      //         }
+      //      `
+      //    : css`
+      //         opacity: 0.05;
+      //      `;
    };
 
    const mapStyleToImageSrc = (style: HexagonStyle) => {
