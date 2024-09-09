@@ -79,48 +79,19 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
 
       if (loadingAnimationFinished && style === 'standard') {
          return css`
-               opacity: 1;
-               transition: opacity 0.66s ease-in-out;
-               &:hover {
-                  opacity: 0.75;
-               }
-            `; 
+            opacity: 1;
+            transition: opacity 0.66s ease-in-out;
+            &:hover {
+               opacity: 0.75;
+            }
+         `;
       }
 
       return null;
-
-      // if (isDesktop) {
-      //    if (loadingAnimationFinished) {
-      //       return css`
-      //          opacity: 1;
-      //          transition: opacity 0.66s ease-in-out;
-      //          &:hover {
-      //             opacity: 0.75;
-      //          }
-      //       `;
-      //    } else {
-      //       return null;
-      //    }
-      // } else {
-      // }
-
-      // return isDesktop
-      //    ? css`
-      //         opacity: 1;
-      //         transition: opacity 0.66s ease-in-out;
-      //         &:hover {
-      //            opacity: 0.75;
-      //         }
-      //      `
-      //    : css`
-      //         opacity: 0.05;
-      //      `;
    };
 
    const mapStyleToImageSrc = (style: HexagonStyle) => {
       switch (style) {
-         case 'standard':
-            return hexagonImage;
          case 'about':
             return hexagonAbout;
          case 'projects':
@@ -134,22 +105,26 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
 
    const hasRevealed = useAppSelector(store => store.hexagon.hasRevealed);
 
-   return (
-      <div
-         css={css`
-            ${baseCss}${hasRevealed && style === 'standard' ? animationCss : null}
-         `}
-         data-iso-id={id}
-      >
-         <img
-            src={mapStyleToImageSrc(style)}
-            css={style !== 'standard' || imgCss()}
-            onClick={() => {
-               console.log('clicky!');
-            }}
-         />
-      </div>
-   );
+   if (style === 'standard') {
+      return (
+         <div
+            css={css`
+               ${baseCss}${hasRevealed && animationCss}
+            `}
+            data-iso-id={id}
+         >
+            <img src={hexagonImage} css={imgCss()} />
+         </div>
+      );
+   } else {
+      return (
+         <div css={baseCss} data-iso-id={id}>
+            <a href={`#${style}`}>
+               <img src={mapStyleToImageSrc(style)} css={imgCss()} />
+            </a>
+         </div>
+      );
+   }
 }
 
 export default HexagonTile;

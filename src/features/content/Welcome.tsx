@@ -13,18 +13,29 @@ const welcomeTextCss = css`
    }
 `;
 
+const myNameIsTextCss = css`
+   font-size: 54px;
+   margin-bottom: 30px;
+   @media (max-width: 768px) {
+      font-size: 28px;
+      margin-bottom: 15px;
+   }
+`;
+
+const iAmATextCss = css`
+   font-size: 23px;
+`;
+
 function Welcome() {
    return (
       <div>
          <div css={welcomeTextCss}>Welcome!</div>
-         <div>
-            <span>My names is </span>
-            <span className='text-accent'>Nathan Rooke</span>
+         <div css={myNameIsTextCss}>
+            <span>My name is </span>
+            <span className="text-accent">Nathan Rooke</span>
          </div>
-         <div>
-            <span>I'm a </span>
-            <span className='text-accent'>web software engineer </span>
-            <span>and I love building stuff</span>
+         <div css={iAmATextCss} className="mb-12">
+            I'm a <span className="text-accent">web software engineer</span> and I love building stuff
          </div>
       </div>
    );
