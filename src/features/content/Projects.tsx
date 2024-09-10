@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import Header from '../displayElements/Header';
 
 function Projects() {
    return (
       <div className="mt-48" id="projects">
+         <Header text="Projects" />
          <div>Projects Test</div>{' '}
          <div>
             Lorem ipsum odor amet, consectetuer adipiscing elit. Quisque orci proin faucibus lacinia fermentum sapien;

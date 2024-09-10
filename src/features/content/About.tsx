@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import Header from '../displayElements/Header';
 
 function About() {
    return (
       <div id="about">
-         <div className="text-primary">
+         <Header text="About" />
+         <div className="text-primary text-lg">
             I started my tech journey leading a small companies technical initiatives. A fateful project stemming from a
             simple thought- "This software is bad... I bet I could do better" led me to the world of software
             development. Today, I'm a full-stack engineer. What I love most about this craft is how it brings together

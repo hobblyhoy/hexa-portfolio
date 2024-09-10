@@ -56,6 +56,7 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       opacity: ${isVisible ? 1 : 0};
       transition: opacity ${HEXAGON_FADE_TIME / 1000}s ease-in-out, top ${HEXAGON_FADE_TIME / 1000}s ease-in-out;
       display: ${isDeactivated ? 'none' : 'block'};
+      z-index: 1;
    `;
 
    const animationCss = css`
@@ -67,10 +68,6 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
    `;
 
    const imgCss = () => {
-      // What in all do I have to worry about here?
-      // when we're on mobile we're only ever displaying low opacity
-      // until the loading animation is done we dont have have hover
-      // hover does not apply to the desktop style of non standard
       if (!isDesktop) {
          return css`
             opacity: 0.05;

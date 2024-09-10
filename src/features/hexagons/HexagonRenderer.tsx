@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { HEXAGON_WIPE_FINISH_POINT, HEXAGON_WIPE_INTERVAL, TILE_WIDTH } from '../../app/constants';
+import {
+   HEXAGON_WIPE_FINISH_POINT,
+   HEXAGON_WIPE_INTERVAL_HIDE,
+   HEXAGON_WIPE_INTERVAL_REVEAL,
+   TILE_WIDTH,
+} from '../../app/constants';
 import HexagonTile from './HexagonTile';
 import { IHexagon } from './HexagonTypes';
 import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
@@ -77,16 +82,23 @@ function HexagonRenderer() {
    const [currentRevealXLine, setCurrentRevealXLine] = useState(window.innerWidth + TILE_WIDTH);
    useEffect(() => {
       if (!isDesktop) return;
-
-      let intervalRef = setInterval(() => {
+      const runTimeout = () => {
          setCurrentRevealXLine(currentX => {
             let newX = currentX - TILE_WIDTH / 4;
             if (newX < HEXAGON_WIPE_FINISH_POINT) {
-               clearInterval(intervalRef);
+               return newX; // Stop updating if the condition is met
             }
+
+            // Continue calling the setTimeout until the finish point is reached
+            const time = newX > 0 ? HEXAGON_WIPE_INTERVAL_HIDE : HEXAGON_WIPE_INTERVAL_REVEAL;
+            setTimeout(runTimeout, time);
+
             return newX;
          });
-      }, HEXAGON_WIPE_INTERVAL);
+      };
+
+      // Start the initial timeout
+      setTimeout(runTimeout, HEXAGON_WIPE_INTERVAL_HIDE);
    }, [isDesktop]);
 
    // Handle the wipe and lifecycle notifications
@@ -126,10 +138,10 @@ function HexagonRenderer() {
       });
    }, [currentRevealXLine]);
 
-   // TODO 
+   // TODO
    // Special handling of resize events. (screenWidth)
    // We dont want to put the user through this whole animation
-   // every time they resize (or are checking out mobile) so 
+   // every time they resize (or are checking out mobile) so
    // we need some means of immediately correcting the screen
    // to the end state as soon as they resize.
 

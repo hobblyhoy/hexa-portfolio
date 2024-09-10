@@ -1,41 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-const welcomeTextCss = css`
-   font-size: 150px;
-
-   @media (max-width: 1400px) {
-      font-size: 120px;
-   }
-
-   @media (max-width: 768px) {
-      font-size: 80px;
-   }
-`;
-
-const myNameIsTextCss = css`
-   font-size: 54px;
-   margin-bottom: 30px;
-   @media (max-width: 768px) {
-      font-size: 28px;
-      margin-bottom: 15px;
-   }
-`;
-
-const iAmATextCss = css`
-   font-size: 23px;
-`;
-
 function Welcome() {
    return (
       <div>
-         <div css={welcomeTextCss}>Welcome!</div>
-         <div css={myNameIsTextCss}>
+         <div className="text-7xl sm:text-9xl mb-4">Welcome!</div>
+         <div className="text-3xl sm:text-5xl mb-4 sm:mb-8">
             <span>My name is </span>
             <span className="text-accent">Nathan Rooke</span>
          </div>
-         <div css={iAmATextCss} className="mb-12">
-            I'm a <span className="text-accent">web software engineer</span> and I love building stuff
+         <div className="mb-24 text-xl sm:text-2xl">
+            I'm a <span className="text-accent">full stack engineer</span> and I love building stuff
          </div>
       </div>
    );
