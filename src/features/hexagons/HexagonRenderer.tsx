@@ -50,7 +50,7 @@ function HexagonRenderer() {
       // Place our special tiles (desktop view only)
       if (isDesktop) {
          const aboutTile = hexas.getHexagonAtCartesianCoords({
-            cartX: window.innerWidth / 4,
+            cartX: window.innerWidth / 3,
             cartY: window.innerHeight / 3,
          });
          aboutTile.style = 'about';

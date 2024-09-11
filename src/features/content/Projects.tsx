@@ -4,10 +4,9 @@ import Header from '../displayElements/Header';
 
 function Projects() {
    return (
-      <div className="mt-48" id="projects">
+      <div className="mt-24" id="projects">
          <Header text="Projects" />
-         <div>Projects Test</div>{' '}
-         <div>
+         <div className="roboto-light">
             Lorem ipsum odor amet, consectetuer adipiscing elit. Quisque orci proin faucibus lacinia fermentum sapien;
             netus sapien potenti. Sapien eleifend massa ad dignissim commodo vitae hac in. Adis ut tincidunt efficitur
             gravida nibh condimentum erat curae. Himenaeos lacus aptent tincidunt mus penatibus suspendisse. Diam

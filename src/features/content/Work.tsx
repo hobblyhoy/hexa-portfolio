@@ -4,7 +4,7 @@ import Header from '../displayElements/Header';
 
 function Work() {
    return (
-      <div className="mt-48" id="work">
+      <div className="mt-24" id="work">
          <Header text="Work" />
          <div>
             Lorem ipsum odor amet, consectetuer adipiscing elit. Quisque orci proin faucibus lacinia fermentum sapien;

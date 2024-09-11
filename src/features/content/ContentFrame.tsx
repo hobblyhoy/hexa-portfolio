@@ -13,6 +13,7 @@ function ContentFrame() {
       display: flex;
       margin-left: ${isDesktop ? '50%' : 'unset'};
       padding: ${isDesktop ? '40px' : '20px'};
+      justify-content: center;
    `;
 
    const max600Css = css`

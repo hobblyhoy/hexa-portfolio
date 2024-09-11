@@ -14,9 +14,10 @@ const useBreakpoint = () => {
       };
    }, []);
 
-   // Magic number 992 refers to Bootstraps typical desktop breakpoint width
-   // This app doesn't use Bootstrap but... old habits...
-   return { screenWidth, isDesktop: screenWidth >= 992 };
+   // Magic number 1024 matches with "lg" on tailwind
+   // which I usually consider a good differentiator
+   // between desktop and mobile/tablet sizes
+   return { screenWidth, isDesktop: screenWidth >= 1024 };
 };
 
 export default useBreakpoint;

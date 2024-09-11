@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import React from 'react';
 import HexagonRenderer from './features/hexagons/HexagonRenderer';
 import ContentFrame from './features/content/ContentFrame';

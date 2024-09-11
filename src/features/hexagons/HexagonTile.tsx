@@ -9,12 +9,11 @@ import { HEXAGON_FADE_TIME, TILE_WIDTH } from '../../app/constants';
 import { HexagonStyle, IHexagon } from './HexagonTypes';
 import { useAppSelector } from '../../app/hooks';
 import useBreakpoint from '../customHooks/useBreakpoint';
-
-const getRandom = (min: number, max: number): number => Math.random() * (max - min) + min;
+import { random } from 'lodash';
 
 function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) {
-   const randomStartDelay = useMemo(() => getRandom(0, 10), []);
-   const randomOscillationPhase = useMemo(() => getRandom(5, 6), []);
+   const randomStartDelay = useMemo(() => random(0, 10, true), []);
+   const randomOscillationPhase = useMemo(() => random(5, 6, true), []);
    const loadingAnimationFinished = useAppSelector(store => store.hexagon.hasRevealed);
    const { isDesktop } = useBreakpoint();
 
@@ -110,14 +109,14 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
             `}
             data-iso-id={id}
          >
-            <img src={hexagonImage} css={imgCss()} />
+            <img src={hexagonImage} css={imgCss()} alt=""/>
          </div>
       );
    } else {
       return (
          <div css={baseCss} data-iso-id={id}>
             <a href={`#${style}`}>
-               <img src={mapStyleToImageSrc(style)} css={imgCss()} />
+               <img src={mapStyleToImageSrc(style)} css={imgCss()} alt="" />
             </a>
          </div>
       );
