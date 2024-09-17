@@ -12,7 +12,7 @@ function ContentFrame() {
    const baseCss = css`
       display: flex;
       margin-left: ${isDesktop ? '50%' : 'unset'};
-      padding: ${isDesktop ? '40px' : '20px'};
+      padding: ${isDesktop ? '40px' : '30px'};
       justify-content: center;
    `;
 

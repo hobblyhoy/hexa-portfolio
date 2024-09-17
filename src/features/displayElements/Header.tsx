@@ -11,14 +11,14 @@ const barCss = css`
       content: '';
       position: absolute;
       top: 50%;
-      width: 100%;
+      width: 10vw;
       height: 1px;
    }
    &:before {
-      left: -100%;
+      left: -10vw;
    }
    &:after {
-      right: -100%;
+      right: -10vw;
    }
 `;
 const Header: React.FC<HeaderProps> = ({ text }) => {
