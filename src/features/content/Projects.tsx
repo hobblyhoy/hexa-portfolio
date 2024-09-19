@@ -7,11 +7,23 @@ function Projects() {
       {
          title: 'Quilti',
          description:
-            'A user driven image collection site where anyone can contribute to an infinite quilt of artworks. This was built using React and utilizes the Canvas and Fabric.js libraries. This project is heavily cached at all layers and required many rounds of trade-off analysis in order for it to work well under my limited hosting resources.',
+            'A user driven image collection site where anyone can contribute to an infinite quilt of artworks.' +
+            ' Created during a time restricted build challenge going from idea generation to hosted solution in under 40 hours.' +
+            ' This project is heavily cached at all layers and required many rounds of trade-off analysis in order for it to work well under my limited hosting resources.',
          image: quiltiImage,
-         tags: ['BXN', 'Blork Kit', 'JimJamicks'],
-         codeLink: 'https://github.com/TODO',
-         siteLink: 'https://google.com/',
+         tags: ['React', 'Fabric.js', 'Canvas', '.NET'],
+         codeUrl: 'https://github.com/TODO',
+         siteUrl: 'https://google.com/',
+      },
+      {
+         title: 'Demo2',
+         description:
+            'A user driven image collection site where anyone can contribute to an infinite quilt of artworks.' +
+            ' Created during a time restricted build challenge going from idea generation to hosted solution in under 40 hours.' +
+            ' This project is heavily cached at all layers and required many rounds of trade-off analysis in order for it to work well under my limited hosting resources.',
+         image: quiltiImage,
+         tags: ['React', 'Fabric.js', 'Canvas', '.NET'],
+         codeUrl: 'https://github.com/TODO',
       },
    ];
 
@@ -19,7 +31,7 @@ function Projects() {
       <div className="mt-24" id="projects">
          <Header text="Projects" />
          {projects.map(x => (
-            <Project {...x} />
+            <div className="mb-10"><Project {...x} /></div>
          ))}
       </div>
    );
