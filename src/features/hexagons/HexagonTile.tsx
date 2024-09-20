@@ -53,9 +53,11 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       width: ${TILE_WIDTH}px;
       cursor: ${style === 'standard' ? 'unset' : 'pointer'};
       opacity: ${isVisible ? 1 : 0};
-      transition: opacity ${HEXAGON_FADE_TIME / 1000}s ease-in-out, top ${HEXAGON_FADE_TIME / 1000}s ease-in-out;
+      transition: opacity ${HEXAGON_FADE_TIME / 1000}s ease-in-out,
+         top ${HEXAGON_FADE_TIME / 1000}s ease-in-out;
       display: ${isDeactivated ? 'none' : 'block'};
       z-index: 1;
+      pointer-events: ${isDesktop ? 'unset' : 'none'};
    `;
 
    const animationCss = css`
@@ -109,7 +111,7 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
             `}
             data-iso-id={id}
          >
-            <img src={hexagonImage} css={imgCss()} alt=""/>
+            <img src={hexagonImage} css={imgCss()} alt="" />
          </div>
       );
    } else {

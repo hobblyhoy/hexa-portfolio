@@ -11,7 +11,7 @@ export const HEXAGON_WIPE_FINISH_POINT = window.innerWidth * -0.5 - TILE_WIDTH /
 // The starting point of our hexagon arrays. We're dealing with assets which tile
 // at non orthogonal angles and overlap so to avoid the complex math we push these
 // deep off the screen and let the positioner do the heavy lifting later
-export const SCREEN_X_BASE = window.innerWidth * 3;
+export const SCREEN_X_BASE = window.innerWidth * 4;
 export const SCREEN_Y_BASE = window.innerHeight * -1;
 
 // Specify the locations of the special linking pages

@@ -23,11 +23,12 @@ import useBreakpoint from '../customHooks/useBreakpoint';
 function HexagonRenderer() {
    const [hexagonArray, setHexagonArray] = useState<IHexagon[]>([]);
    const dispatch = useAppDispatch();
-   const { isDesktop, screenWidth } = useBreakpoint();
+   const { isDesktop } = useBreakpoint();
 
    // Initialize the Hexagons and get them positioned appropriately on the screen
    useEffect(() => {
-      const tileCount = Math.round(Math.max(window.innerWidth, window.innerHeight) / TILE_WIDTH) * 5;
+      const tileCount =
+         Math.round(Math.max(window.innerWidth, window.innerHeight) / TILE_WIDTH) * 8;
       const isoPositions = generateIsoPositions(tileCount, tileCount);
 
       let hexas: IHexagon[] = isoPositions.map(x => ({
@@ -79,7 +80,9 @@ function HexagonRenderer() {
 
    // Build an interval and a variable to manage tracking an X coordinate
    // move across the screen
-   const [currentRevealXLine, setCurrentRevealXLine] = useState(window.innerWidth + TILE_WIDTH);
+   const [currentRevealXLine, setCurrentRevealXLine] = useState(
+      window.innerWidth + TILE_WIDTH
+   );
    useEffect(() => {
       if (!isDesktop) return;
       const runTimeout = () => {
@@ -90,7 +93,8 @@ function HexagonRenderer() {
             }
 
             // Continue calling the setTimeout until the finish point is reached
-            const time = newX > 0 ? HEXAGON_WIPE_INTERVAL_HIDE : HEXAGON_WIPE_INTERVAL_REVEAL;
+            const time =
+               newX > 0 ? HEXAGON_WIPE_INTERVAL_HIDE : HEXAGON_WIPE_INTERVAL_REVEAL;
             setTimeout(runTimeout, time);
 
             return newX;
@@ -108,12 +112,20 @@ function HexagonRenderer() {
 
       // First wipe - Reveal phase
       const hexasOnXLineToReveal = hexagonArray
-         .filter(x => x.cartCoords.cartX <= currentRevealXLine && x.cartCoords.cartX + TILE_WIDTH >= currentRevealXLine)
+         .filter(
+            x =>
+               x.cartCoords.cartX <= currentRevealXLine &&
+               x.cartCoords.cartX + TILE_WIDTH >= currentRevealXLine
+         )
          .filter(x => !x.isVisible);
 
       // Second wipe - hide phase
       const hexasOnXLineToHide = hexagonArray
-         .filter(x => x.cartCoords.cartX <= currentHideXLine && x.cartCoords.cartX + TILE_WIDTH >= currentHideXLine)
+         .filter(
+            x =>
+               x.cartCoords.cartX <= currentHideXLine &&
+               x.cartCoords.cartX + TILE_WIDTH >= currentHideXLine
+         )
          .filter(x => x.isVisible);
 
       // Lifecycle notifications
@@ -137,13 +149,6 @@ function HexagonRenderer() {
          });
       });
    }, [currentRevealXLine]);
-
-   // TODO
-   // Special handling of resize events. (screenWidth)
-   // We dont want to put the user through this whole animation
-   // every time they resize (or are checking out mobile) so
-   // we need some means of immediately correcting the screen
-   // to the end state as soon as they resize.
 
    return (
       <div>
