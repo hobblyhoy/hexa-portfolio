@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useAppSelector } from '../../app/hooks';
-import Welcome from './Welcome';
-import About from './About';
+import Welcome from '../welcome/Welcome';
+import About from '../about/About';
 import useBreakpoint from '../customHooks/useBreakpoint';
-import Projects from './Projects';
-import Work from './Work';
+import Projects from '../projects/Projects';
+import Work from '../work/Work';
 
 function ContentFrame() {
    const { isDesktop } = useBreakpoint();

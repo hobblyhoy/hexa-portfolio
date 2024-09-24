@@ -1,4 +1,4 @@
-import Header from '../displayElements/Header';
+import Header from '../structure/Header';
 
 function About() {
    return (

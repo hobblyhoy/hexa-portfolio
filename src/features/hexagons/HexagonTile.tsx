@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useMemo, useState } from 'react';
 import { css, keyframes } from '@emotion/react';
-import hexagonImage from '../../assets/sketchup_hexa_v2.png';
-import hexagonProjects from '../../assets/sketchup_hexa_projects2.png';
+import hexagonImage from '../../assets/sketchup_hexa_v4.png';
+import hexagonProjects from '../../assets/sketchup_hexa_projects.png';
 import hexagonAbout from '../../assets/sketchup_hexa_about.png';
 import hexagonWork from '../../assets/sketchup_hexa_work.png';
 import { HEXAGON_FADE_TIME, TILE_WIDTH } from '../../app/constants';

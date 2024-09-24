@@ -1,11 +1,11 @@
-import Header from '../displayElements/Header';
+import Header from '../structure/Header';
 import quiltiImage from '../../assets/project_images/quilti.jpg';
 import tinyTown from '../../assets/project_images/tiny-town.jpg';
 import pingTrack from '../../assets/project_images/ping-track.jpg';
 import letsMeetOn from '../../assets/project_images/lets-meet-on.jpg';
 import commForward from '../../assets/project_images/comm-forward.jpg';
 import portfolio from '../../assets/project_images/portfolio.jpg';
-import Project, { IProjectProps } from '../displayElements/Project';
+import Project, { IProjectProps } from '../projects/Project';
 
 function Projects() {
    const projects: IProjectProps[] = [
@@ -43,7 +43,8 @@ function Projects() {
       {
          title: "Let's Meet On",
          description:
-            'A web app to take a group of people’s schedules and display the times when everyone is available. One of my earliest software career projects but remains useful and still gets active users.',
+            'A web app to take a group of people’s schedules and display the times when everyone is available.' +
+            ' One of my earliest software projects but remains useful and still gets active users.',
          image: letsMeetOn,
          tags: ['Vue.js', '.NET', 'Entity Framework', 'SignalR', 'SendGrid', 'Moment.js'],
          siteUrl: 'https://letsmeeton.com/',
@@ -51,7 +52,9 @@ function Projects() {
       {
          title: 'Comm Forward',
          description:
-            'A minimalist app to communicate needs and feelings. Created for my grandfather who had fallen ill and had difficulty speaking. Features a simple to use, tablet-friendly design and a customizable interface.',
+            'A minimalist app to communicate needs and feelings.' +
+            ' Created for my grandfather who had fallen ill and had difficulty speaking. ' +
+            ' Features a simple to use, tablet-friendly design and a customizable interface.',
          image: commForward,
          tags: ['Vue.js'],
          siteUrl: 'https://hobblyhoy.github.io/CommForward/',
