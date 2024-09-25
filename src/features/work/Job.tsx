@@ -23,7 +23,7 @@ function Job({ title, companyName, start, end, description, tags }: IJobProps) {
                {end}
             </div>
             <div className="col-span-2 row-start-2 text-lg">{companyName}</div>
-            <div className="col-span-2 row-start-3 roboto-regular">{description}</div>
+            <div className="col-span-2 row-start-3 roboto-light">{description}</div>
             <div className="col-span-2 row-start-4">
                <TagsList tags={tags} />
             </div>

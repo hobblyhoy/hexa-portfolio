@@ -7,7 +7,8 @@ function Welcome() {
             <span className="text-accent">Nathan Rooke</span>
          </div>
          <div className="text-xl sm:text-2xl">
-            I'm a <span className="text-accent">full stack engineer</span> and I love building stuff
+            I'm a <span className="text-accent">full stack engineer</span> and I love
+            building stuff
          </div>
       </div>
    );

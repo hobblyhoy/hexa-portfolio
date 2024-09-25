@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import Header from '../structure/Header';
 import Job, { IJobProps } from './Job';
 
@@ -7,7 +5,7 @@ function Work() {
    const jobs: IJobProps[] = [
       {
          title: 'Software Engineer',
-         companyName: 'iGrad Financial Wellness',
+         companyName: 'Enrich Financial Wellness',
          description: 'TODO',
          tags: [
             'JavaScript',
@@ -15,7 +13,7 @@ function Work() {
             'React',
             'C#',
             '.NET',
-            'Cosmos',
+            'Cosmos DB',
             'SQL Server',
          ],
          start: '2019',

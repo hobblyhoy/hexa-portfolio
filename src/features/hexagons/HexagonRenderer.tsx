@@ -3,7 +3,7 @@ import {
    HEXAGON_WIPE_FINISH_POINT,
    HEXAGON_WIPE_INTERVAL_HIDE,
    HEXAGON_WIPE_INTERVAL_REVEAL,
-   TILE_WIDTH,
+   HEXAGON_TILE_WIDTH,
 } from '../../app/constants';
 import HexagonTile from './HexagonTile';
 import { IHexagon } from './HexagonTypes';
@@ -28,7 +28,9 @@ function HexagonRenderer() {
    // Initialize the Hexagons and get them positioned appropriately on the screen
    useEffect(() => {
       const tileCount =
-         Math.round(Math.max(window.innerWidth, window.innerHeight) / TILE_WIDTH) * 8;
+         Math.round(
+            Math.max(window.innerWidth, window.innerHeight) / HEXAGON_TILE_WIDTH
+         ) * 8;
       const isoPositions = generateIsoPositions(tileCount, tileCount);
 
       let hexas: IHexagon[] = isoPositions.map(x => ({
@@ -42,9 +44,9 @@ function HexagonRenderer() {
       // Strip all the elements outside the bounds of the screen
       hexas = hexas.filter(
          x =>
-            x.cartCoords.cartX > TILE_WIDTH * -1 &&
+            x.cartCoords.cartX > HEXAGON_TILE_WIDTH * -1 &&
             x.cartCoords.cartX < window.innerWidth &&
-            x.cartCoords.cartY > TILE_WIDTH * -1 &&
+            x.cartCoords.cartY > HEXAGON_TILE_WIDTH * -1 &&
             x.cartCoords.cartY < window.innerHeight
       );
 
@@ -67,6 +69,12 @@ function HexagonRenderer() {
             isoY: projectsTile.isoCoords.isoY + 2,
          });
          workTile.style = 'work';
+
+         const contactTile = hexas.getHexagonAtIsoCoords({
+            isoX: workTile.isoCoords.isoX,
+            isoY: workTile.isoCoords.isoY + 2,
+         });
+         contactTile.style = 'contact';
       }
 
       setHexagonArray(hexas);
@@ -81,13 +89,13 @@ function HexagonRenderer() {
    // Build an interval and a variable to manage tracking an X coordinate
    // move across the screen
    const [currentRevealXLine, setCurrentRevealXLine] = useState(
-      window.innerWidth + TILE_WIDTH
+      window.innerWidth + HEXAGON_TILE_WIDTH
    );
    useEffect(() => {
       if (!isDesktop) return;
       const runTimeout = () => {
          setCurrentRevealXLine(currentX => {
-            let newX = currentX - TILE_WIDTH / 4;
+            let newX = currentX - HEXAGON_TILE_WIDTH / 4;
             if (newX < HEXAGON_WIPE_FINISH_POINT) {
                return newX; // Stop updating if the condition is met
             }
@@ -107,7 +115,7 @@ function HexagonRenderer() {
 
    // Handle the wipe and lifecycle notifications
    useEffect(() => {
-      const hideBuffer = window.innerWidth + TILE_WIDTH;
+      const hideBuffer = window.innerWidth + HEXAGON_TILE_WIDTH;
       const currentHideXLine = currentRevealXLine + hideBuffer;
 
       // First wipe - Reveal phase
@@ -115,7 +123,7 @@ function HexagonRenderer() {
          .filter(
             x =>
                x.cartCoords.cartX <= currentRevealXLine &&
-               x.cartCoords.cartX + TILE_WIDTH >= currentRevealXLine
+               x.cartCoords.cartX + HEXAGON_TILE_WIDTH >= currentRevealXLine
          )
          .filter(x => !x.isVisible);
 
@@ -124,12 +132,12 @@ function HexagonRenderer() {
          .filter(
             x =>
                x.cartCoords.cartX <= currentHideXLine &&
-               x.cartCoords.cartX + TILE_WIDTH >= currentHideXLine
+               x.cartCoords.cartX + HEXAGON_TILE_WIDTH >= currentHideXLine
          )
          .filter(x => x.isVisible);
 
       // Lifecycle notifications
-      if (currentRevealXLine - TILE_WIDTH < 0) {
+      if (currentRevealXLine - HEXAGON_TILE_WIDTH < 0) {
          dispatch(filledScreen());
       }
       if (currentRevealXLine < HEXAGON_WIPE_FINISH_POINT) {

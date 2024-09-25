@@ -1,4 +1,4 @@
-export type HexagonStyle = 'standard' | 'about' | 'projects' | 'work';
+export type HexagonStyle = 'standard' | 'about' | 'projects' | 'work' | 'contact';
 
 export interface IHexagon {
    style: HexagonStyle;

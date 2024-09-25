@@ -1,7 +1,7 @@
 import {
-   TILE_WIDTH,
+   HEXAGON_TILE_WIDTH,
    FULL_SIZE_ASSET_WIDTH,
-   TILE_PIXEL_BUFFER,
+   HEXAGON_TILE_PIXEL_BUFFER,
    SCREEN_X_BASE,
    SCREEN_Y_BASE,
 } from '../../app/constants';
@@ -20,11 +20,11 @@ export const generateIsoPositions = (xCount: number, yCount: number): IIsometric
 };
 
 export const isoToCartesianPosition = (isoCoords: IIsometricCoordinates): ICartesianCoordinates => {
-   const scaleFactor = TILE_WIDTH / FULL_SIZE_ASSET_WIDTH;
+   const scaleFactor = HEXAGON_TILE_WIDTH / FULL_SIZE_ASSET_WIDTH;
 
-   let isoXLength = 347 * scaleFactor + TILE_PIXEL_BUFFER;
+   let isoXLength = 347 * scaleFactor + HEXAGON_TILE_PIXEL_BUFFER;
    let isoXTheta = 6.0 * (Math.PI / 180); // degrees from horizontal
-   let isoYLength = 194 * scaleFactor + TILE_PIXEL_BUFFER;
+   let isoYLength = 194 * scaleFactor + HEXAGON_TILE_PIXEL_BUFFER;
    let isoYTheta = 33.85 * (Math.PI / 180); // degrees from vertical
 
    let cartX =
@@ -51,9 +51,9 @@ Array.prototype.getHexagonAtCartesianCoords = function (this: IHexagon[], coords
    let found = this.find(
       h =>
          h.cartCoords.cartX <= coords.cartX &&
-         h.cartCoords.cartX + TILE_WIDTH >= coords.cartX &&
+         h.cartCoords.cartX + HEXAGON_TILE_WIDTH >= coords.cartX &&
          h.cartCoords.cartY <= coords.cartY &&
-         h.cartCoords.cartY + TILE_WIDTH >= coords.cartY
+         h.cartCoords.cartY + HEXAGON_TILE_WIDTH >= coords.cartY
    );
 
    if (!found) throw `No hexagon found at position: ${coords?.cartX}/${coords?.cartY}`;

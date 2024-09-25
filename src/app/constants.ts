@@ -1,12 +1,17 @@
 import { HexagonStyle, IIsometricCoordinates } from '../features/hexagons/HexagonTypes';
 
 // Configurables
-export const TILE_WIDTH = 150;
-export const TILE_PIXEL_BUFFER = 3;
-export const HEXAGON_FADE_TIME = 500; // typically 500 but lower for debugging
-export const HEXAGON_WIPE_INTERVAL_HIDE = 50;
-export const HEXAGON_WIPE_INTERVAL_REVEAL = 150;
-export const HEXAGON_WIPE_FINISH_POINT = window.innerWidth * -0.5 - TILE_WIDTH / 2;
+export const HEXAGON_TILE_WIDTH = 150; // Height is automatically set
+export const HEXAGON_TILE_PIXEL_BUFFER = 3; // Pixel space between hexagons
+export const HEXAGON_FADE_TIME = 500; // Opacity fade in / fade out time
+export const HEXAGON_WIPE_INTERVAL_HIDE = 50; // Time for the initial wipe phase
+export const HEXAGON_WIPE_INTERVAL_REVEAL = 150; // Time for the reveal phase
+export const HEXAGON_WIPE_FINISH_POINT =
+   window.innerWidth * -0.5 - HEXAGON_TILE_WIDTH / 2; // X coord to wipe away hexagons from during reveal phase
+export const HEXAGON_START_DELAY_RANGE = [0, 10]; // How long to wait before starting to float
+export const HEXAGON_OSCILLATION_RANGE = [5, 6]; // How long each up/down float cycle is
+export const HEXAGON_FLOAT_HEIGHT_DESKTOP = 10; // Y offset from each tiles default location while floating
+export const HEXAGON_FLOAT_HEIGHT_MOBILE = 15;
 
 // The starting point of our hexagon arrays. We're dealing with assets which tile
 // at non orthogonal angles and overlap so to avoid the complex math we push these

@@ -21,15 +21,12 @@ export const hexagonSlice = createSlice({
    initialState,
    reducers: {
       initialized: state => {
-         console.log('==hasInitialized==');
          state.hasInitialized = true;
       },
       filledScreen: state => {
-         console.log('==hasFilledScreen==');
          state.hasFilledScreen = true;
       },
       revealed: state => {
-         console.log('==hasRevealed==');
          state.hasRevealed = true;
       },
    },

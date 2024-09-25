@@ -41,7 +41,9 @@ function Project({ title, description, image, tags, codeUrl, siteUrl }: IProject
    return (
       <WhiteHoverCard>
          <div
-            className="grid grid-cols-[auto,1fr] gap-x-3 gap-y-2 p-3 cursor-default"
+            className={`grid grid-cols-[auto,1fr] gap-x-3 gap-y-2 p-3 ${
+               !isDesktop ? 'pl-0' : ''
+            } cursor-default`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
          >

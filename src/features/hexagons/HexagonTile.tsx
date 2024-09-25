@@ -5,15 +5,27 @@ import hexagonImage from '../../assets/sketchup_hexa_v4.png';
 import hexagonProjects from '../../assets/sketchup_hexa_projects.png';
 import hexagonAbout from '../../assets/sketchup_hexa_about.png';
 import hexagonWork from '../../assets/sketchup_hexa_work.png';
-import { HEXAGON_FADE_TIME, TILE_WIDTH } from '../../app/constants';
+import hexagonContact from '../../assets/sketchup_hexa_contact.png';
+import {
+   HEXAGON_FADE_TIME,
+   HEXAGON_FLOAT_HEIGHT_DESKTOP,
+   HEXAGON_FLOAT_HEIGHT_MOBILE,
+   HEXAGON_OSCILLATION_RANGE,
+   HEXAGON_START_DELAY_RANGE,
+   HEXAGON_TILE_WIDTH,
+} from '../../app/constants';
 import { HexagonStyle, IHexagon } from './HexagonTypes';
 import { useAppSelector } from '../../app/hooks';
 import useBreakpoint from '../customHooks/useBreakpoint';
 import { random } from 'lodash';
 
 function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) {
-   const randomStartDelay = useMemo(() => random(0, 10, true), []);
-   const randomOscillationPhase = useMemo(() => random(5, 6, true), []);
+   const delay = HEXAGON_START_DELAY_RANGE;
+   const randomStartDelay = useMemo(() => random(delay[0], delay[1], true), []);
+
+   const osc = HEXAGON_OSCILLATION_RANGE;
+   const randomOscillationPhase = useMemo(() => random(osc[0], osc[1], true), []);
+
    const loadingAnimationFinished = useAppSelector(store => store.hexagon.hasRevealed);
    const { isDesktop } = useBreakpoint();
 
@@ -26,11 +38,15 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       }
    }, [isVisible]);
 
+   const floatHeight = isDesktop
+      ? HEXAGON_FLOAT_HEIGHT_DESKTOP
+      : HEXAGON_FLOAT_HEIGHT_MOBILE;
+
    const slideUpDown = keyframes`
       0% { top: ${cartCoords.cartY}px; }
       10% { top: ${cartCoords.cartY}px; }
-      40% { top: ${cartCoords.cartY + 10}px; }
-      60% { top: ${cartCoords.cartY + 10}px; }
+      40% { top: ${cartCoords.cartY + floatHeight}px; }
+      60% { top: ${cartCoords.cartY + floatHeight}px; }
       90% { top: ${cartCoords.cartY}px; }
       100% { top: ${cartCoords.cartY}px; }
    `;
@@ -50,7 +66,7 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       left: ${cartCoords.cartX}px;
       top: ${getTopValue(isVisible, cartCoords.cartY)}px;
       height: auto;
-      width: ${TILE_WIDTH}px;
+      width: ${HEXAGON_TILE_WIDTH}px;
       cursor: ${style === 'standard' ? 'unset' : 'pointer'};
       opacity: ${isVisible ? 1 : 0};
       transition: opacity ${HEXAGON_FADE_TIME / 1000}s ease-in-out,
@@ -96,6 +112,8 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
             return hexagonProjects;
          case 'work':
             return hexagonWork;
+         case 'contact':
+            return hexagonContact;
          default:
             throw new Error(`Unknown style: ${style}`);
       }

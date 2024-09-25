@@ -6,6 +6,7 @@ import About from '../about/About';
 import useBreakpoint from '../customHooks/useBreakpoint';
 import Projects from '../projects/Projects';
 import Work from '../work/Work';
+import Contact from '../contact/Contact';
 
 function ContentFrame() {
    const { isDesktop } = useBreakpoint();
@@ -20,15 +21,23 @@ function ContentFrame() {
       max-width: ${isDesktop ? '600px' : 'unset'};
    `;
 
-   const screenIsFilledWithHexagons = useAppSelector(store => store.hexagon.hasFilledScreen);
+   const screenIsFilledWithHexagons = useAppSelector(
+      store => store.hexagon.hasFilledScreen
+   );
 
    return (
-      <div css={baseCss} className={`text-primary ${screenIsFilledWithHexagons ? 'opacity-100' : 'opacity-0'}`}>
+      <div
+         css={baseCss}
+         className={`text-primary ${
+            screenIsFilledWithHexagons ? 'opacity-100' : 'opacity-0'
+         }`}
+      >
          <div className="flex flex-col justify-center w-full" css={max600Css}>
             <Welcome />
             <About />
             <Projects />
             <Work />
+            <Contact />
          </div>
       </div>
    );
