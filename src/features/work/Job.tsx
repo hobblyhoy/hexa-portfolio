@@ -1,4 +1,4 @@
-import { faArrowUpRightFromSquare, faRightLong } from '@fortawesome/free-solid-svg-icons';
+import { faRightLong } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WhiteHoverCard from '../structure/WhiteHoverCard';
 import TagsList from '../structure/Tags';
