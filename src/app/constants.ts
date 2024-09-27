@@ -5,7 +5,7 @@ export const HEXAGON_TILE_WIDTH = 150; // Height is automatically set
 export const HEXAGON_TILE_PIXEL_BUFFER = 3; // Pixel space between hexagons
 export const HEXAGON_FADE_TIME = 500; // Opacity fade in / fade out time
 export const HEXAGON_WIPE_INTERVAL_HIDE = 50; // Time for the initial wipe phase
-export const HEXAGON_WIPE_INTERVAL_REVEAL = 150; // Time for the reveal phase
+export const HEXAGON_WIPE_INTERVAL_REVEAL = 100; // Time for the reveal phase
 export const HEXAGON_WIPE_FINISH_POINT =
    window.innerWidth * -0.5 - HEXAGON_TILE_WIDTH / 2; // X coord to wipe away hexagons from during reveal phase
 export const HEXAGON_START_DELAY_RANGE = [0, 10]; // How long to wait before starting to float

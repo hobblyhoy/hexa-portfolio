@@ -15,6 +15,8 @@ function ContentFrame() {
       margin-left: ${isDesktop ? '50%' : 'unset'};
       padding: ${isDesktop ? '40px' : '30px'};
       justify-content: center;
+      position: ${isDesktop ? 'unset' : 'relative'};
+      z-index: ${isDesktop ? 0 : 2};
    `;
 
    const max600Css = css`

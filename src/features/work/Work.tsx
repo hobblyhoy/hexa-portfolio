@@ -40,7 +40,7 @@ function Work() {
    ];
 
    return (
-      <div className="mt-24" id="work">
+      <div className="mt-12 lg:mt-16" id="work">
          <Header text="Work" />
          {jobs.map(job => (
             <div className="mb-4" key={job.title}>

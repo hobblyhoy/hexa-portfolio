@@ -74,7 +74,7 @@ function Projects() {
    ];
 
    return (
-      <div className="mt-24" id="projects">
+      <div className="mt-12 lg:mt-16" id="projects">
          <Header text="Projects" />
          {projects.map(proj => (
             <div className="mb-10" key={proj.title}>

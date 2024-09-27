@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { faGithub, IconDefinition } from '@fortawesome/free-brands-svg-icons';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import {
+   faArrowUpRightFromSquare,
+   faPaperPlane,
+} from '@fortawesome/free-solid-svg-icons';
 import ProjectLink from './ProjectLink';
 import useBreakpoint from '../customHooks/useBreakpoint';
 import ProjectLinkMini from './ProjectLinkMini';
 import WhiteHoverCard from '../structure/WhiteHoverCard';
 import TagsList from '../structure/Tags';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IProjectProps {
    title: string;
@@ -43,7 +47,7 @@ function Project({ title, description, image, tags, codeUrl, siteUrl }: IProject
          <div
             className={`grid grid-cols-[auto,1fr] gap-x-3 gap-y-2 p-3 ${
                !isDesktop ? 'pl-0' : ''
-            } cursor-default`}
+            }`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
          >
@@ -56,8 +60,25 @@ function Project({ title, description, image, tags, codeUrl, siteUrl }: IProject
                   />
                )}
             </div>
-            <div className="text-2xl text-accent">{title}</div>
-            <div className="col-start-2 roboto-light">
+            <div className="text-2xl text-accent">
+               <h3>
+                  {title}
+                  {isDesktop && (
+                     <span className="ml-2 text-lg">
+                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                     </span>
+                  )}
+               </h3>
+            </div>
+            {!isDesktop && (
+               <div className="col-start-2">
+                  <img
+                     src={image}
+                     alt={`Screenshot of application ${title}`}
+                  />
+               </div>
+            )}
+            <div className="col-start-2 roboto-light row-start-3">
                <div className="relative">
                   <div className={isDesktop ? hoveredFadeOut : ''}>{description}</div>
                   {/* Source and site links hover overlay */}
@@ -78,13 +99,13 @@ function Project({ title, description, image, tags, codeUrl, siteUrl }: IProject
                      ))}
                </div>
             </div>
-            <div className="col-start-2 row-start-3">
+            <div className="col-start-2 row-start-4">
                <TagsList tags={tags} />
             </div>
 
             {/* Mobile inline source and site links */}
             {!isDesktop && (
-               <div className="col-start-2 row-start-4">
+               <div className="col-start-2 row-start-5">
                   {links.map(link => (
                      <ProjectLinkMini {...link} isScreenReader={false} key={link.text} />
                   ))}

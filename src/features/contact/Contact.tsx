@@ -5,7 +5,7 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 function Contact() {
    return (
-      <div className="mt-24" id="contact">
+      <div className="mt-12 lg:mt-16" id="contact">
          <Header text="Contact" />
          <div className="flex justify-center gap-8">
             <a

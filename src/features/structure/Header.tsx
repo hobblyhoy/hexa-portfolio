@@ -24,12 +24,12 @@ const barCss = css`
 const Header: React.FC<HeaderProps> = ({ text }) => {
    return (
       <div className="flex items-center justify-center w-full my-5">
-         <span
+         <h2
             className="relative px-4 text-3xl before:bg-primary after:bg-primary"
             css={barCss}
          >
             {text}
-         </span>
+         </h2>
       </div>
    );
 };

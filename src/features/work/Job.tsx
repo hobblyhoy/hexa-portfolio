@@ -1,4 +1,4 @@
-import { faRightLong } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpRightFromSquare, faRightLong } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WhiteHoverCard from '../structure/WhiteHoverCard';
 import TagsList from '../structure/Tags';
@@ -16,7 +16,9 @@ function Job({ title, companyName, start, end, description, tags }: IJobProps) {
    return (
       <WhiteHoverCard>
          <div className="grid gap-1 p-3">
-            <div className="text-xl text-accent">{title}</div>
+            <div className="text-xl text-accent">
+               <h3>{title}</h3>
+            </div>
             <div className="justify-self-end roboto-light text-sm self-center">
                {start}
                <FontAwesomeIcon icon={faRightLong} className="mx-2" />
