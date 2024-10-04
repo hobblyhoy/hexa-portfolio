@@ -1,15 +1,12 @@
 import { useState } from 'react';
-import { faGithub, IconDefinition } from '@fortawesome/free-brands-svg-icons';
-import {
-   faArrowUpRightFromSquare,
-   faPaperPlane,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import ProjectLink from './ProjectLink';
 import useBreakpoint from '../customHooks/useBreakpoint';
 import ProjectLinkMini from './ProjectLinkMini';
 import WhiteHoverCard from '../structure/WhiteHoverCard';
 import TagsList from '../structure/Tags';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { generateLinks } from './ProjectUtils';
 
 export interface IProjectProps {
    title: string;
@@ -28,90 +25,81 @@ function Project({ title, description, image, tags, codeUrl, siteUrl }: IProject
    const hoveredFadeIn = `opacity-${isHovered ? '100' : '0'} ${transOpacity}`;
    const hoveredFadeOut = `opacity-${isHovered ? '0' : '100'} ${transOpacity}`;
 
-   interface ILink {
-      text: string;
-      url: string;
-      icon: IconDefinition;
-      location: 'left' | 'right' | 'full';
-   }
+   const links = generateLinks(codeUrl, siteUrl);
 
-   let links: ILink[] = [];
-   if (codeUrl)
-      links.push({ text: 'Source', url: codeUrl, icon: faGithub, location: 'left' });
-   if (siteUrl)
-      links.push({ text: 'Hosted', url: siteUrl, icon: faPaperPlane, location: 'right' });
-   if (links.length === 1) links[0].location = 'full';
+   const ApplicationImage = () => (
+      <img className="w-36 h-36" src={image} alt={`Screenshot of application ${title}`} />
+   );
+
+   const Title = () => (
+      <h3 className="text-2xl text-accent">
+         {title}
+         {isDesktop && (
+            <span className="ml-2 text-lg">
+               <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+            </span>
+         )}
+      </h3>
+   );
+
+   const DescriptionWithLinkHover = () => (
+      <div className="relative roboto-light">
+         <div className={hoveredFadeOut}>{description}</div>
+         {/* Source and site links hover overlay */}
+         <div className={`absolute w-full h-full top-0 flex ${hoveredFadeIn}`}>
+            {links.map(link => (
+               <ProjectLink {...link} key={link.url} />
+            ))}
+         </div>
+
+         {/* Links for screen readers */}
+         {links.map(link => (
+            <ProjectLinkMini {...link} isScreenReader={true} key={link.url} />
+         ))}
+      </div>
+   );
+
+   const DescriptionMobile = () => <div className="roboto-light">{description}</div>;
+
+   const LinksMobile = () => (
+      <div>
+         {links.map(link => (
+            <ProjectLinkMini {...link} isScreenReader={false} key={link.text} />
+         ))}
+      </div>
+   );
 
    return (
       <WhiteHoverCard>
-         <div
-            className={`grid grid-cols-[auto,1fr] gap-x-3 gap-y-2 p-3 ${
-               !isDesktop ? 'pl-0' : ''
-            }`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-         >
-            <div className="row-span-3 place-self-center">
-               {isDesktop && (
-                  <img
-                     className="w-36 h-36"
-                     src={image}
-                     alt={`Screenshot of application ${title}`}
-                  />
-               )}
-            </div>
-            <div className="text-2xl text-accent">
-               <h3>
-                  {title}
-                  {isDesktop && (
-                     <span className="ml-2 text-lg">
-                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                     </span>
-                  )}
-               </h3>
-            </div>
-            {!isDesktop && (
+         {isDesktop ? (
+            // Desktop Layout
+            <div
+               className={`grid grid-cols-[auto,1fr] gap-x-3 gap-y-2 p-3`}
+               onMouseEnter={() => setIsHovered(true)}
+               onMouseLeave={() => setIsHovered(false)}
+            >
+               <div className="row-span-3 place-self-center">
+                  <ApplicationImage />
+               </div>
                <div className="col-start-2">
-                  <img
-                     src={image}
-                     alt={`Screenshot of application ${title}`}
-                  />
+                  <Title />
                </div>
-            )}
-            <div className="col-start-2 roboto-light row-start-3">
-               <div className="relative">
-                  <div className={isDesktop ? hoveredFadeOut : ''}>{description}</div>
-                  {/* Source and site links hover overlay */}
-                  {isDesktop && (
-                     <div
-                        className={`absolute w-full h-full top-0 flex ${hoveredFadeIn}`}
-                     >
-                        {links.map(link => (
-                           <ProjectLink {...link} key={link.url} />
-                        ))}
-                     </div>
-                  )}
-
-                  {/* Links for screen readers */}
-                  {isDesktop &&
-                     links.map(link => (
-                        <ProjectLinkMini {...link} isScreenReader={true} key={link.url} />
-                     ))}
+               <div className="col-start-2">
+                  <DescriptionWithLinkHover />
+               </div>
+               <div className="col-start-2">
+                  <TagsList tags={tags} />
                </div>
             </div>
-            <div className="col-start-2 row-start-4">
-               <TagsList tags={tags} />
+         ) : (
+            // Mobile / Tablet Layout
+            <div className="flex flex-col gap-3 p-3">
+               <Title />
+               <ApplicationImage />
+               <DescriptionMobile />
+               <LinksMobile />
             </div>
-
-            {/* Mobile inline source and site links */}
-            {!isDesktop && (
-               <div className="col-start-2 row-start-5">
-                  {links.map(link => (
-                     <ProjectLinkMini {...link} isScreenReader={false} key={link.text} />
-                  ))}
-               </div>
-            )}
-         </div>
+         )}
       </WhiteHoverCard>
    );
 }
