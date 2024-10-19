@@ -87,7 +87,7 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
    const imgCss = () => {
       if (!isDesktop) {
          return css`
-            opacity: 0.05;
+            opacity: 0.1;
          `;
       }
 

@@ -13,7 +13,12 @@ function ContentFrame() {
    const baseCss = css`
       display: flex;
       margin-left: ${isDesktop ? '50%' : 'unset'};
-      padding: ${isDesktop ? '40px' : '30px'};
+      ${isDesktop
+         ? `padding-left: 40px;
+            padding-right: 40px;
+            padding-top: 80px;
+            padding-bottom: 60px;`
+         : 'padding: 30px;'}
       justify-content: center;
       position: ${isDesktop ? 'unset' : 'relative'};
       z-index: ${isDesktop ? 0 : 2};

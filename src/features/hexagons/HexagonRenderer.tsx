@@ -97,7 +97,7 @@ function HexagonRenderer() {
          setCurrentRevealXLine(currentX => {
             let newX = currentX - HEXAGON_TILE_WIDTH / 4;
             if (newX < HEXAGON_WIPE_FINISH_POINT) {
-               return newX; // Stop updating if the condition is met
+               return newX;
             }
 
             // Continue calling the setTimeout until the finish point is reached

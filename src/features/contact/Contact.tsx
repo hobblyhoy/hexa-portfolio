@@ -15,14 +15,14 @@ function Contact() {
                rel="noreferrer"
                className="hover:text-primary-hover transition-colors duration-500"
             >
-               <FontAwesomeIcon icon={faLinkedin} size="8x" />
+               <FontAwesomeIcon icon={faLinkedin} size="7x" />
             </a>
             <a
                href="mailto:nrooke42@gmail.com"
                aria-label="My Email"
                className="hover:text-primary-hover transition-colors duration-500"
             >
-               <FontAwesomeIcon icon={faEnvelope} size="8x" />
+               <FontAwesomeIcon icon={faEnvelope} size="7x" />
             </a>
          </div>
       </div>
