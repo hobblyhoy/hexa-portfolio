@@ -17,7 +17,7 @@ module.exports = {
                disabled: '#727287',
             },
             accent: {
-               DEFAULT: '#DB3E00',
+               DEFAULT: '#E75920',
                hover: '#D6B0D6',
             },
          },
