@@ -136,7 +136,7 @@ function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) 
       return (
          <div css={baseCss} data-iso-id={id}>
             <a href={`#${style}`}>
-               <img src={mapStyleToImageSrc(style)} css={imgCss()} alt="" />
+               <img src={mapStyleToImageSrc(style)} css={imgCss()} alt={`Jump to ${style} section`} />
             </a>
          </div>
       );
