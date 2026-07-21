@@ -1,12 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.93505995.css",
-    "main.js": "/static/js/main.52336717.js",
+    "main.js": "/static/js/main.bcddea81.js",
     "static/js/787.b04fe391.chunk.js": "/static/js/787.b04fe391.chunk.js",
     "static/media/quilti.jpg": "/static/media/quilti.53d1c083abd6c6541cda.jpg",
     "static/media/lets-meet-on.jpg": "/static/media/lets-meet-on.02eb4cfcf105a102077c.jpg",
     "static/media/ping-track.jpg": "/static/media/ping-track.e99d5f80e410ab2893e8.jpg",
     "static/media/comm-forward.jpg": "/static/media/comm-forward.57c8cd9b5914f31f4191.jpg",
+    "static/media/true-todo.jpg": "/static/media/true-todo.a5110b03fdd25cc052d9.jpg",
     "static/media/sketchup_hexa_projects.png": "/static/media/sketchup_hexa_projects.4f7aaa711634ae6a0385.png",
     "static/media/sketchup_hexa_contact.png": "/static/media/sketchup_hexa_contact.dc9983fca32acd6577fe.png",
     "static/media/sketchup_hexa_about.png": "/static/media/sketchup_hexa_about.e6945aa88d902abb8661.png",
@@ -14,11 +15,11 @@
     "static/media/tiny-town.jpg": "/static/media/tiny-town.0fc00fad786114b22ebd.jpg",
     "index.html": "/index.html",
     "main.93505995.css.map": "/static/css/main.93505995.css.map",
-    "main.52336717.js.map": "/static/js/main.52336717.js.map",
+    "main.bcddea81.js.map": "/static/js/main.bcddea81.js.map",
     "787.b04fe391.chunk.js.map": "/static/js/787.b04fe391.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.93505995.css",
-    "static/js/main.52336717.js"
+    "static/js/main.bcddea81.js"
   ]
 }
