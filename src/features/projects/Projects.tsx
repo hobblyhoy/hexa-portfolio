@@ -5,6 +5,7 @@ import pingTrack from '../../assets/project_images/ping-track.jpg';
 import letsMeetOn from '../../assets/project_images/lets-meet-on.jpg';
 import commForward from '../../assets/project_images/comm-forward.jpg';
 import portfolio from '../../assets/project_images/portfolio.jpg';
+import trueTodo from '../../assets/project_images/true-todo.jpg';
 import Project, { IProjectProps } from '../projects/Project';
 
 function Projects() {
@@ -15,11 +16,21 @@ function Projects() {
             'A relaxing town builder.' +
             ' Created as a challenge to build something outside the typical website structure.' +
             ' Everything but the assets themselves are created from scratch including pan & scale, click & drag, animation, tile placement, and sound effects.' +
-            ' No other external libraries or Canvas elements.',
+            ' No other external libraries or Canvas elements. Built in 2023, before LLMs got good :)',
          image: tinyTown,
          tags: ['React', 'Redux', 'TypeScript'],
          codeUrl: 'https://github.com/hobblyhoy/little-town/',
          siteUrl: 'https://hobblyhoy.github.io/little-town/',
+      },
+      {
+         title: 'True To-do',
+         description:
+            'An opinionated daily todo list based work tracker.' +
+            ' Supports template days, infinite nesting of items, auto-carrying unfinished work to the next day, data roll-ups, an installable offline PWA, and a dark/sepia theme.' +
+            ' 100% free with no accounts, tracking, or ads — all data stays on your device.',
+         image: trueTodo,
+         tags: ['React', 'Redux', 'TypeScript'],
+         siteUrl: 'https://hobblyhoy.github.io/TrueTodo-Pages/',
       },
       {
          title: 'Quilti',
@@ -46,7 +57,14 @@ function Projects() {
             'A web app to take a group of people’s schedules and display the times when everyone is available.' +
             ' One of my earliest software projects but remains useful and still gets active users.',
          image: letsMeetOn,
-         tags: ['Vue.js', '.NET', 'Entity Framework', 'SignalR', 'SendGrid', 'Moment.js'],
+         tags: [
+            'Vue.js',
+            '.NET',
+            'Entity Framework',
+            'SignalR',
+            'SendGrid',
+            'Moment.js',
+         ],
          siteUrl: 'https://letsmeeton.com/',
       },
       {
