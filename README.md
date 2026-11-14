@@ -1,41 +1,24 @@
-# Getting Started with Create React App
+# Hexa Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+Personal portfolio built with React, TypeScript, Redux Toolkit, and Tailwind CSS. Hosted on GitHub Pages at [gitcheckoutnathan.com](https://gitcheckoutnathan.com).
 
-## Available Scripts
+## Run locally
 
-In the project directory, you can run:
+Requires Node.js and npm. The current start script uses Windows syntax.
 
-### `npm start`
+```powershell
+npm ci
+npm start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open http://localhost:3001. Edit app code in `src/` and static assets in `public/`.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Build and deploy
 
-### `npm run build`
+Push changes to `master` to deploy automatically. [The workflow](.github/workflows/deploy.yml) installs dependencies with `npm ci`, runs `npm run build`, and deploys `build/` directly to GitHub Pages. Check the repository's **Actions** tab for progress or use **Run workflow** to redeploy manually.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**One-time setup:** In GitHub **Settings > Pages > Build and deployment**, set **Source** to **GitHub Actions**. Keep the custom domain set to `www.gitcheckoutnathan.com` and its existing DNS records. No extra secrets are needed; the workflow uses GitHub's built-in token.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Run `npm run build` locally to check the production build. The generated `build/` folder is ignored by Git. The older `npm run deploy` command publishes to the `gh-pages` branch and is no longer needed for automatic deployments.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+`public/CNAME` is copied into the build, but Actions deployments use the custom domain configured in GitHub Pages settings.

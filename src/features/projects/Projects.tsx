@@ -25,12 +25,12 @@ function Projects() {
       {
          title: 'True To-do',
          description:
-            'An opinionated daily todo list based work tracker.' +
-            ' Supports template days, infinite nesting of items, auto-carrying unfinished work to the next day, data roll-ups, an installable offline PWA, and a dark/sepia theme.' +
-            ' 100% free with no accounts, tracking, or ads — all data stays on your device.',
+            'I am the owner, creator, and designer for the True To-do weekly planning application.' +
+            ' A digital day planner for tracking daily work, breaking tasks into smaller steps, and keeping notes alongside them, with the rest of the week in view.' +
+            ' Weekday templates prepare recurring tasks, and the free app works offline with no account required. The paid service adds cross-device sync and cloud backup.',
          image: trueTodo,
          tags: ['React', 'Redux', 'TypeScript'],
-         siteUrl: 'https://hobblyhoy.github.io/TrueTodo-Pages/',
+         siteUrl: 'https://app.truetodo.com/',
       },
       {
          title: 'Quilti',
