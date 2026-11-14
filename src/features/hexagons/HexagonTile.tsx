@@ -20,11 +20,9 @@ import useBreakpoint from '../customHooks/useBreakpoint';
 import { random } from 'lodash';
 
 function HexagonTile({ style, isoCoords, cartCoords, id, isVisible }: IHexagon) {
-   const delay = HEXAGON_START_DELAY_RANGE;
-   const randomStartDelay = useMemo(() => random(delay[0], delay[1], true), []);
+   const randomStartDelay = useMemo(() => random(HEXAGON_START_DELAY_RANGE[0], HEXAGON_START_DELAY_RANGE[1], true), []);
 
-   const osc = HEXAGON_OSCILLATION_RANGE;
-   const randomOscillationPhase = useMemo(() => random(osc[0], osc[1], true), []);
+   const randomOscillationPhase = useMemo(() => random(HEXAGON_OSCILLATION_RANGE[0], HEXAGON_OSCILLATION_RANGE[1], true), []);
 
    const loadingAnimationFinished = useAppSelector(store => store.hexagon.hasRevealed);
    const { isDesktop } = useBreakpoint();

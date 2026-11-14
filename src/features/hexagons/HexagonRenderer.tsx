@@ -7,7 +7,12 @@ import {
 } from '../../app/constants';
 import HexagonTile from './HexagonTile';
 import { IHexagon } from './HexagonTypes';
-import { generateIsoPositions, isoToCartesianPosition } from './RenderUtils';
+import {
+   generateIsoPositions,
+   isoToCartesianPosition,
+   getHexagonAtCartesianCoords,
+   getHexagonAtIsoCoords,
+} from './RenderUtils';
 import { useAppDispatch } from '../../app/hooks';
 import { filledScreen, initialized, revealed } from './hexagonSlice';
 import useBreakpoint from '../customHooks/useBreakpoint';
@@ -52,25 +57,25 @@ function HexagonRenderer() {
 
       // Place our special tiles (desktop view only)
       if (isDesktop) {
-         const aboutTile = hexas.getHexagonAtCartesianCoords({
+         const aboutTile = getHexagonAtCartesianCoords(hexas, {
             cartX: window.innerWidth / 3,
             cartY: window.innerHeight / 3,
          });
          aboutTile.style = 'about';
 
-         const projectsTile = hexas.getHexagonAtIsoCoords({
+         const projectsTile = getHexagonAtIsoCoords(hexas, {
             isoX: aboutTile.isoCoords.isoX,
             isoY: aboutTile.isoCoords.isoY + 2,
          });
          projectsTile.style = 'projects';
 
-         const workTile = hexas.getHexagonAtIsoCoords({
+         const workTile = getHexagonAtIsoCoords(hexas, {
             isoX: projectsTile.isoCoords.isoX - 1,
             isoY: projectsTile.isoCoords.isoY + 2,
          });
          workTile.style = 'work';
 
-         const contactTile = hexas.getHexagonAtIsoCoords({
+         const contactTile = getHexagonAtIsoCoords(hexas, {
             isoX: workTile.isoCoords.isoX,
             isoY: workTile.isoCoords.isoY + 2,
          });
@@ -84,7 +89,7 @@ function HexagonRenderer() {
          dispatch(filledScreen());
          dispatch(revealed());
       }
-   }, [isDesktop]);
+   }, [dispatch, isDesktop]);
 
    // Build an interval and a variable to manage tracking an X coordinate
    // move across the screen
@@ -118,24 +123,6 @@ function HexagonRenderer() {
       const hideBuffer = window.innerWidth + HEXAGON_TILE_WIDTH;
       const currentHideXLine = currentRevealXLine + hideBuffer;
 
-      // First wipe - Reveal phase
-      const hexasOnXLineToReveal = hexagonArray
-         .filter(
-            x =>
-               x.cartCoords.cartX <= currentRevealXLine &&
-               x.cartCoords.cartX + HEXAGON_TILE_WIDTH >= currentRevealXLine
-         )
-         .filter(x => !x.isVisible);
-
-      // Second wipe - hide phase
-      const hexasOnXLineToHide = hexagonArray
-         .filter(
-            x =>
-               x.cartCoords.cartX <= currentHideXLine &&
-               x.cartCoords.cartX + HEXAGON_TILE_WIDTH >= currentHideXLine
-         )
-         .filter(x => x.isVisible);
-
       // Lifecycle notifications
       if (currentRevealXLine - HEXAGON_TILE_WIDTH < 0) {
          dispatch(filledScreen());
@@ -146,6 +133,24 @@ function HexagonRenderer() {
 
       // Perform the actual Array update
       setHexagonArray(arr => {
+         // First wipe - Reveal phase
+         const hexasOnXLineToReveal = arr
+            .filter(
+               x =>
+                  x.cartCoords.cartX <= currentRevealXLine &&
+                  x.cartCoords.cartX + HEXAGON_TILE_WIDTH >= currentRevealXLine
+            )
+            .filter(x => !x.isVisible);
+
+         // Second wipe - hide phase
+         const hexasOnXLineToHide = arr
+            .filter(
+               x =>
+                  x.cartCoords.cartX <= currentHideXLine &&
+                  x.cartCoords.cartX + HEXAGON_TILE_WIDTH >= currentHideXLine
+            )
+            .filter(x => x.isVisible);
+
          return arr.map(x => {
             if (hexasOnXLineToReveal.map(y => y.id).includes(x.id)) {
                return { ...x, isVisible: true };
@@ -156,7 +161,7 @@ function HexagonRenderer() {
             }
          });
       });
-   }, [currentRevealXLine]);
+   }, [currentRevealXLine, dispatch]);
 
    return (
       <div>
